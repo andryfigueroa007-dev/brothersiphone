@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brotehers iPhone | Especialistas Exclusivos en iPhone</title>
+    <title>Brothers iPhone | Especialistas Exclusivos en iPhone</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -207,7 +207,7 @@
                     </svg>
                 </div>
                 <div>
-                    <span class="font-bold text-lg tracking-tight text-white">Brotehers <span class="text-appleBlue">iPhone</span></span>
+                    <span class="font-bold text-lg tracking-tight text-white">Brothers <span class="text-appleBlue">iPhone</span></span>
                     <span class="hidden sm:inline-block text-[11px] text-zinc-400 ml-2 border-l border-white/15 pl-2">Exclusivo Apple</span>
                 </div>
             </a>
@@ -228,7 +228,7 @@
         <div class="max-w-7xl mx-auto text-center relative z-10">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel text-xs font-medium text-zinc-300 mb-6">
                 <span class="w-2 h-2 rounded-full bg-appleBlue"></span>
-                <span>Brotehers iPhone • Equipos Certificados Listos para Entrega Inmediata</span>
+                <span>Brothers iPhone • Equipos Certificados Listos para Entrega Inmediata</span>
             </div>
 
             <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-5 leading-[1.08]">
@@ -348,10 +348,12 @@
 
     <!-- CUADRÍCULA DE PRODUCTOS (CATÁLOGO IPHONE) -->
     <script id="store-data" type="application/json">null</script>
+    
     <div id="admin-tools" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex flex-wrap gap-3">
         <button type="button" onclick="addNewPhone()" class="px-4 py-2 rounded-xl bg-appleGreen/20 border border-appleGreen/40 text-xs font-bold text-appleGreen">＋ Agregar equipo nuevo</button>
-        <button type="button" onclick="publishAll()" class="px-4 py-2 rounded-xl bg-appleBlue text-xs font-bold text-white">📤 Publicar cambios para todos</button>
+        <button type="button" onclick="downloadPage()" class="px-4 py-2 rounded-xl bg-appleBlue text-xs font-bold text-white">⬇️ Descargar archivo actualizado</button>
         <button type="button" onclick="resetFullCatalog()" class="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs font-medium text-zinc-300">Restaurar catálogo original</button>
+        <p class="w-full text-[11px] text-zinc-500">Tus cambios se ven aquí en tu dispositivo. Para que los vean tus clientes: descarga el archivo, guárdalo como index.html y súbelo a Netlify.</p>
     </div>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
@@ -363,7 +365,7 @@
         <div id="empty-state" class="hidden text-center py-20 glass-panel rounded-3xl">
             <svg class="w-12 h-12 text-zinc-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             <h3 class="text-lg font-semibold text-white">No encontramos ese modelo</h3>
-            <p class="text-sm text-zinc-400 mt-1">Intenta cambiar los filtros para ver los equipos de Brotehers iPhone.</p>
+            <p class="text-sm text-zinc-400 mt-1">Intenta cambiar los filtros para ver los equipos de Brothers iPhone.</p>
             <button type="button" onclick="resetFilters()" class="mt-4 px-5 py-2 rounded-full bg-appleBlue text-white text-xs font-semibold hover:bg-appleBlueHover transition-colors">
                 Ver todos los iPhones
             </button>
@@ -447,6 +449,7 @@
         </div>
     </div>
 
+    
     <div id="editor-modal" class="hidden fixed inset-0 z-[60] bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto">
         <div class="max-w-3xl mx-auto bg-[#121217] border border-white/10 rounded-3xl p-5 sm:p-7">
             <div class="flex items-center justify-between mb-4"><h3 class="text-xl font-bold text-white">Editar equipo</h3><button type="button" onclick="closeEditor()" class="text-zinc-400 hover:text-white text-2xl leading-none">×</button></div>
@@ -468,7 +471,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-sm font-bold text-white">Brotehers iPhone</p>
+                    <p class="text-sm font-bold text-white">Brothers iPhone</p>
                     <p class="text-xs text-zinc-500">Venta exclusiva de dispositivos iPhone • WhatsApp: +1 (809) 665-4476</p>
                 </div>
             </div>
@@ -612,7 +615,7 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             </div>
             <div>
-                <h4 class="text-sm font-bold text-white">¡Conectando con Brotehers iPhone!</h4>
+                <h4 class="text-sm font-bold text-white">¡Conectando con Brothers iPhone!</h4>
                 <p id="toast-message" class="text-xs text-zinc-300 mt-0.5">Abriendo WhatsApp +1 (809) 665-4476...</p>
             </div>
         </div>
@@ -1495,6 +1498,7 @@
 
                 const adminControlsHTML = adminMode ? `
                     <div class="mt-3" onclick="event.stopPropagation()"><button type="button" onclick="openEditor('${product.id}')" class="w-full py-2 rounded-lg bg-appleBlue/20 border border-appleBlue/50 text-[11px] font-bold text-white hover:bg-appleBlue/30">✏️ Editar equipo completo</button></div>
+                    
                     <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
                         <span class="text-[11px] text-zinc-400 font-medium">Precio (RD$):</span>
                         <input type="number" min="0" step="100" value="${displayPrice}" onchange="setPrice('${product.id}', this.value)" class="w-28 bg-zinc-900 border border-white/15 rounded-lg px-2 py-1 text-xs text-white text-right outline-none focus:border-appleBlue">
@@ -1632,8 +1636,8 @@
         function buildWhatsAppURL(product, colorObj, storageObj, finalPrice) {
             const isOut = product.stock === 0;
             const message = isOut
-                ? `¡Hola *Brotehers iPhone*! Vi el *${product.name}* (${colorObj.name}, ${storageObj.size}) en su catálogo web. ¿Cuándo vuelven a tener unidades disponibles?`
-                : `¡Hola *Brotehers iPhone*! Quiero comprar este equipo disponible en su página web:\n\n` +
+                ? `¡Hola *Brothers iPhone*! Vi el *${product.name}* (${colorObj.name}, ${storageObj.size}) en su catálogo web. ¿Cuándo vuelven a tener unidades disponibles?`
+                : `¡Hola *Brothers iPhone*! Quiero comprar este equipo disponible en su página web:\n\n` +
                   `📱 *Modelo:* ${product.name}\n` +
                   `🎨 *Color:* ${colorObj.name}\n` +
                   `💾 *Capacidad:* ${storageObj.size}\n` +
@@ -1945,7 +1949,7 @@
             list.push({ id: currentModalProduct.id, phone, date: new Date().toISOString() });
             localStorage.setItem(TRADE_KEY, JSON.stringify(list));
         } catch (e) {}
-        const text = `¡Hola *Brotehers iPhone*! Avísenme cuando llegue el *${currentModalProduct.name}*. Mi número: ${phone}`;
+        const text = `¡Hola *Brothers iPhone*! Avísenme cuando llegue el *${currentModalProduct.name}*. Mi número: ${phone}`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
         msg.textContent = '¡Listo! Te avisaremos por WhatsApp.';
     }
@@ -1965,7 +1969,7 @@
         const est = Math.round(m.basePrice * f / 100) * 100;
         document.getElementById('trade-result').textContent = formatDOP(est);
         const cond = document.getElementById('trade-cond').selectedOptions[0].text;
-        const text = `¡Hola *Brotehers iPhone*! Quiero entregar mi *${m.name}* (${cond}) como parte de pago. Estimado de la web: ${formatDOP(est)}. ¿Me ayudan a cotizarlo?`;
+        const text = `¡Hola *Brothers iPhone*! Quiero entregar mi *${m.name}* (${cond}) como parte de pago. Estimado de la web: ${formatDOP(est)}. ¿Me ayudan a cotizarlo?`;
         document.getElementById('trade-wa').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     }
 
@@ -2011,7 +2015,7 @@
         document.getElementById('faq-list').innerHTML = FAQ.map(f => `<details class="glass-panel rounded-2xl p-4 group"><summary class="cursor-pointer text-sm font-semibold text-white">${f[0]}</summary><p class="text-sm text-zinc-400 mt-2">${f[1]}</p></details>`).join('');
         document.getElementById('zones-list').innerHTML = ZONES.map(z => `<li>📍 ${z}</li>`).join('');
         document.getElementById('map-link').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(MAP_QUERY);
-        document.getElementById('floating-wa').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Brotehers iPhone! Tengo una consulta.')}`;
+        document.getElementById('floating-wa').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Brothers iPhone! Tengo una consulta.')}`;
         document.getElementById('trade-model').innerHTML = [...catalog].sort((a, b) => a.basePrice - b.basePrice).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
         calcTrade(); renderTestimonials(); loadSheetStock();
     }
@@ -2163,6 +2167,19 @@
             const u = window.claude && await claude.use('user');
             if (u && u.canEdit()) document.getElementById('toggle-admin-btn').classList.remove('hidden');
         } catch (e) {}
+        if (location.hash === '#admin') document.getElementById('toggle-admin-btn').classList.remove('hidden');
+    }
+    function downloadPage() {
+        saveFullCatalog();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector('#store-data').textContent = JSON.stringify(catalog).replace(/</g, '\\u003c');
+        ['products-grid', 'testimonials-grid', 'faq-list', 'zones-list', 'offers-marquee', 'compare-table', 'editor-body', 'modal-color-swatches', 'modal-storage-options'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.innerHTML = ''; });
+        ['admin-banner', 'admin-tools', 'editor-modal', 'compare-modal', 'compare-bar', 'toggle-admin-btn'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.classList.add('hidden'); });
+        const pm = clone.querySelector('#product-modal'); if (pm) pm.classList.remove('active');
+        clone.querySelector('body').removeAttribute('style');
+        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'index.html';
+        document.body.appendChild(a); a.click(); a.remove();
     }
     async function publishAll() {
         let art = null;
