@@ -1,0 +1,21 @@
+{
+  "name": "brothers-iphone",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@netlify/database": "^2.0.3",
+    "@netlify/identity": "^2.0.1",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^1.0.0-beta.22",
+    "happy-dom": "^21.0.4"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

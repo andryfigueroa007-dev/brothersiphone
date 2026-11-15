@@ -213,9 +213,9 @@
             </a>
 
             <div class="flex items-center gap-3">
-                <button id="toggle-admin-btn" type="button" onclick="toggleAdminMode()" class="hidden flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 transition-all">
+                <button id="toggle-admin-btn" type="button" onclick="toggleAdminMode()" class="flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 transition-all">
                     <svg class="w-3.5 h-3.5 text-appleBlue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="21" y1="4" x2="14" y2="4"/><line x1="10" y1="4" x2="3" y2="4"/><line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/><line x1="21" y1="20" x2="16" y2="20"/><line x1="12" y1="20" x2="3" y2="20"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="16" y1="18" x2="16" y2="22"/></svg>
-                    <span id="admin-btn-text">Gestionar Stock</span>
+                    <span id="admin-btn-text">Administrar</span>
                 </button>
             </div>
         </div>
@@ -284,7 +284,7 @@
                 </div>
                 <div>
                     <h3 class="text-sm font-semibold text-white">Modo Gestión de Inventario Activo</h3>
-                    <p class="text-xs text-zinc-300">Usa los botones <span class="font-bold text-white">+</span> y <span class="font-bold text-white">-</span> en cada tarjeta para actualizar las cantidades disponibles al instante.</p>
+                    <p class="text-xs text-zinc-300">Edita precios y detalles con «Editar equipo». Marca un celular como agotado poniendo sus unidades en 0.</p>
                 </div>
             </div>
             <button type="button" onclick="resetAllStock()" class="text-xs font-medium px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors whitespace-nowrap">
@@ -351,10 +351,24 @@
     
     <div id="admin-tools" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex flex-wrap gap-3">
         <button type="button" onclick="addNewPhone()" class="px-4 py-2 rounded-xl bg-appleGreen/20 border border-appleGreen/40 text-xs font-bold text-appleGreen">＋ Agregar equipo nuevo</button>
-        <button type="button" onclick="downloadPage()" class="px-4 py-2 rounded-xl bg-appleBlue text-xs font-bold text-white">⬇️ Descargar archivo actualizado</button>
+        <button type="button" onclick="persistCatalog()" class="px-4 py-2 rounded-xl bg-appleBlue text-xs font-bold text-white">Guardar catálogo</button><button type="button" onclick="logoutAdmin()" class="px-4 py-2 rounded-xl bg-white/10 text-xs text-white">Cerrar sesión</button>
         <button type="button" onclick="resetFullCatalog()" class="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs font-medium text-zinc-300">Restaurar catálogo original</button>
-        <p class="w-full text-[11px] text-zinc-500">Tus cambios se ven aquí en tu dispositivo. Para que los vean tus clientes: descarga el archivo, guárdalo como index.html y súbelo a Netlify.</p>
+        <p id="catalog-save-status" role="status" aria-live="polite" class="w-full text-xs text-zinc-300">Los cambios guardados se muestran a todos los visitantes. Stock 0 = Agotado.</p>
     </div>
+
+
+    <div id="catalog-load-error" role="alert" class="hidden max-w-7xl mx-auto px-4 mb-6 text-sm text-appleOrange">No se pudo cargar el catálogo actualizado. <button type="button" onclick="location.reload()" class="underline">Volver a intentar</button></div>
+    <dialog id="admin-login" class="bg-[#121217] text-white border border-white/15 rounded-3xl p-6 w-[calc(100%-2rem)] max-w-md backdrop:bg-black/80">
+        <form id="admin-login-form" class="space-y-4">
+            <div class="flex justify-between items-center"><h2 class="text-xl font-bold">Administrar catálogo</h2><button type="button" id="close-login" aria-label="Cerrar" class="p-2 text-zinc-400">✕</button></div>
+            <p class="text-sm text-zinc-400">Acceso del propietario. Cambia precios, detalles y disponibilidad de tus celulares.</p>
+            <label class="block text-sm">Correo<input id="admin-email" type="email" required autocomplete="username" class="mt-2 w-full bg-zinc-900 rounded-xl border border-white/15 p-3"></label>
+            <label class="block text-sm">Contraseña<input id="admin-password" type="password" required minlength="8" autocomplete="current-password" class="mt-2 w-full bg-zinc-900 rounded-xl border border-white/15 p-3"></label>
+            <p id="auth-status" role="status" aria-live="polite" class="text-sm text-zinc-300"></p>
+            <button id="auth-submit" type="submit" class="w-full rounded-xl bg-appleBlue py-3 font-semibold">Entrar</button>
+            <div class="flex flex-wrap justify-between gap-3 text-xs"><button type="button" id="auth-signup" class="text-appleBlue py-2">Crear mi acceso</button><button type="button" id="auth-recover" class="text-zinc-300 py-2">Olvidé mi contraseña</button></div>
+        </form>
+    </dialog>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -1270,24 +1284,7 @@
         ];
 
         // Cargar inventario guardado en localStorage o usar el inicial
-        function loadSavedCatalog() {
-            const base = JSON.parse(JSON.stringify(initialCatalog));
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return base;
-                const savedStocks = JSON.parse(raw);
-                if (savedStocks && typeof savedStocks === 'object') {
-                    base.forEach(item => {
-                        if (typeof savedStocks[item.id] === 'number') {
-                            item.stock = Math.max(0, savedStocks[item.id]);
-                        }
-                    });
-                }
-            } catch (e) {
-                console.warn('No se pudo leer inventario local, usando valores por defecto.');
-            }
-            return base;
-        }
+        function loadSavedCatalog() { return structuredClone(initialCatalog); }
 
         function saveCatalogStocks() {
             try {
@@ -1515,7 +1512,7 @@
 
                 const colorDotsHTML = product.colors.map(c => {
                     const locked = isColorLocked(product, c);
-                    return `<span class="relative w-3.5 h-3.5 rounded-full border border-white/35 shadow-sm ${locked ? 'opacity-30' : ''}" style="background-color: ${c.hex};" title="${c.name}${locked ? ' (No disponible)' : ''}">${locked ? '<span class="absolute inset-0 flex items-center justify-center"><span class="block w-[130%] h-px bg-white/80 rotate-45"></span></span>' : ''}</span>`;
+                    return `<span class="relative w-3.5 h-3.5 rounded-full border border-white/35 shadow-sm ${locked ? 'opacity-30' : ''}" style="background-color: ${c.hex};" title="${esc(c.name)}${locked ? ' (No disponible)' : ''}">${locked ? '<span class="absolute inset-0 flex items-center justify-center"><span class="block w-[130%] h-px bg-white/80 rotate-45"></span></span>' : ''}</span>`;
                 }).join('');
 
                 return `
@@ -1698,7 +1695,7 @@
                     type="button"
                     ${locked ? 'disabled aria-disabled="true"' : ''}
                     onclick="selectModalColor(${idx})"
-                    title="${c.name}${locked ? ' — No disponible' : ''}"
+                    title="${esc(c.name)}${locked ? ' — No disponible' : ''}"
                     class="relative w-8 h-8 rounded-full transition-all flex items-center justify-center overflow-hidden ${locked ? 'opacity-35 cursor-not-allowed' : (idx === selectedColorIndex ? 'ring-2 ring-appleBlue ring-offset-2 ring-offset-[#121217] scale-110' : 'opacity-75 hover:opacity-100')}"
                     style="background-color: ${c.hex}; border: 1px solid rgba(255,255,255,0.35);">
                     ${locked ? '<span class="absolute block w-[140%] h-0.5 bg-appleRed rotate-45"></span>' : ''}
@@ -1965,6 +1962,7 @@
 
     function calcTrade() {
         const m = catalog.find(p => p.id === document.getElementById('trade-model').value);
+        if (!m) { document.getElementById('trade-result').textContent = 'Sin equipos'; document.getElementById('trade-wa').removeAttribute('href'); return; }
         const f = parseFloat(document.getElementById('trade-cond').value);
         const est = Math.round(m.basePrice * f / 100) * 100;
         document.getElementById('trade-result').textContent = formatDOP(est);
@@ -2076,7 +2074,7 @@
             ${fld('Condición (ej. Seminuevo Certificado)', 'condition')}${fld('Salud de batería (ej. 84% (Original))', 'batteryHealth')}
             ${fld('Conectividad / SIM', 'simInfo')}${fld('Nota en tarjeta (ej. 128GB • Negro • Batería 84%)', 'extraNote')}
             ${fld('Procesador', 'chip')}${fld('Pantalla', 'display')}
-            ${fld('Cámara', 'camera')}${fld('Stock (unidades)', 'stock', 'number')}
+            ${fld('Cámara', 'camera')}${fld('Stock (unidades; 0 = Agotado)', 'stock', 'number')}
             ${fld('Precio base (RD$)', 'basePrice', 'number')}
         </div>
         <h4 class="text-sm font-bold text-white mt-5 mb-2">Capacidades <span class="text-zinc-500 font-normal text-[11px]">(precio = base + extra; "Restringida" = no se puede elegir si hay stock)</span></h4>
@@ -2119,6 +2117,7 @@
     function saveEditor() {
         syncEditor();
         if (!editing.name.trim()) { alert('Escribe el nombre del equipo.'); return; }
+        if (editing.basePrice < 0 || editing.stock < 0 || editing.storages.some(s => s.extra < 0)) { alert('Los precios y las unidades no pueden ser negativos.'); return; }
         editing.stock = Math.max(0, editing.stock);
         const i = catalog.findIndex(p => p.id === editing.id);
         if (i >= 0) catalog[i] = editing; else catalog.push(editing);
@@ -2149,55 +2148,67 @@
 </script>
 
 <script>
-    // ===== PUBLICACIÓN: cambios visibles en todos los dispositivos =====
-    loadFullCatalog = function () {
+    // El servidor es la única fuente del catálogo publicado.
+    loadFullCatalog = () => false;
+    loadSavedPrices = () => {};
+    loadSheetStock = () => {};
+    saveFullCatalog = () => { if (adminMode) persistCatalog(); };
+    saveCatalogStocks = saveFullCatalog;
+    window.showAdminLogin = () => document.getElementById('admin-login').showModal();
+    let catalogRevision = 0, catalogReady = false, pendingSave = false, savingCatalog = false, hasChanges = false;
+    function saveStatus(message) { document.getElementById('catalog-save-status').textContent = message; }
+    async function loadSharedCatalog() {
         try {
-            let raw = localStorage.getItem(CATALOG_KEY);               // borrador del dueño (aún sin publicar)
-            let saved = raw ? JSON.parse(raw) : null;
-            if (!saved) saved = JSON.parse(document.getElementById('store-data').textContent);  // catálogo publicado
-            if (!Array.isArray(saved) || !saved.length) return false;
-            catalog.length = 0; saved.forEach(p => catalog.push(p));
-            return true;
-        } catch (e) { return false; }
+            const response = await fetch('/api/catalog', {cache:'no-store'});
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
+            if (data.products !== null) catalog = data.products;
+            catalogRevision = data.revision; catalogReady = true;
+            updateGlobalInventoryCounters(); renderCatalog(); refreshTrade();
+        } catch (error) {
+            document.getElementById('catalog-load-error').classList.remove('hidden');
+        }
+    }
+    async function persistCatalog() {
+        if (!adminMode || !catalogReady) return;
+        hasChanges = true; pendingSave = true;
+        if (savingCatalog) return;
+        savingCatalog = true;
+        try {
+            while (pendingSave) {
+                pendingSave = false;
+                saveStatus('Guardando cambios…');
+                await window.refreshAdminSession?.();
+                const response = await fetch('/api/catalog', {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({products:catalog, revision:catalogRevision})});
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'No se pudieron guardar los cambios.');
+                catalogRevision = data.revision;
+            }
+            hasChanges = false; saveStatus('Cambios guardados. Ya están visibles para todos.');
+        } catch (error) { pendingSave = false; saveStatus(error.message + ' Tus cambios siguen en pantalla. Pulsa «Guardar catálogo» para reintentar.'); }
+        finally { savingCatalog = false; }
+    }
+    const enterAdmin = toggleAdminMode;
+    toggleAdminMode = async function () {
+        if (adminMode) { enterAdmin(); document.getElementById('admin-btn-text').textContent='Administrar'; return; }
+        if (!catalogReady) { document.getElementById('catalog-load-error').classList.remove('hidden'); return; }
+        try {
+            await window.refreshAdminSession?.();
+            const response = await fetch('/api/admin', {cache:'no-store'});
+            if ((await response.json()).authorized) { enterAdmin(); return; }
+        } catch {}
+        window.showAdminLogin();
     };
-    loadSavedPrices = function () {};   // los precios ya viajan dentro del catálogo
-
-    async function revealAdminForOwner() {
-        try {
-            const u = window.claude && await claude.use('user');
-            if (u && u.canEdit()) document.getElementById('toggle-admin-btn').classList.remove('hidden');
-        } catch (e) {}
-        if (location.hash === '#admin') document.getElementById('toggle-admin-btn').classList.remove('hidden');
-    }
-    function downloadPage() {
-        saveFullCatalog();
-        const clone = document.documentElement.cloneNode(true);
-        clone.querySelector('#store-data').textContent = JSON.stringify(catalog).replace(/</g, '\\u003c');
-        ['products-grid', 'testimonials-grid', 'faq-list', 'zones-list', 'offers-marquee', 'compare-table', 'editor-body', 'modal-color-swatches', 'modal-storage-options'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.innerHTML = ''; });
-        ['admin-banner', 'admin-tools', 'editor-modal', 'compare-modal', 'compare-bar', 'toggle-admin-btn'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.classList.add('hidden'); });
-        const pm = clone.querySelector('#product-modal'); if (pm) pm.classList.remove('active');
-        clone.querySelector('body').removeAttribute('style');
-        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'index.html';
-        document.body.appendChild(a); a.click(); a.remove();
-    }
-    async function publishAll() {
-        let art = null;
-        try { art = window.claude && await claude.use('artifact'); } catch (e) {}
-        if (!art) { alert('Para publicar abre la página desde tu cuenta de Claude (como dueño).'); return; }
-        saveFullCatalog();
-        const clone = document.documentElement.cloneNode(true);
-        clone.querySelector('#store-data').textContent = JSON.stringify(catalog).replace(/</g, '\\u003c');
-        ['products-grid', 'testimonials-grid', 'faq-list', 'zones-list', 'offers-marquee', 'compare-table', 'editor-body', 'modal-color-swatches', 'modal-storage-options'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.innerHTML = ''; });
-        ['admin-banner', 'admin-tools', 'editor-modal', 'compare-modal', 'compare-bar', 'toggle-admin-btn'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.classList.add('hidden'); });
-        const pm = clone.querySelector('#product-modal'); if (pm) pm.classList.remove('active');
-        clone.querySelector('body').removeAttribute('style');
-        try { localStorage.removeItem(CATALOG_KEY); } catch (e) {}
-        try { await art.publish('<!DOCTYPE html>\n' + clone.outerHTML); }
-        catch (e) { saveFullCatalog(); alert('No se pudo publicar (' + (e && e.code || 'error') + '). Tus cambios siguen guardados como borrador.'); }
-    }
-    const _initY = initExtras;
-    initExtras = function () { _initY(); revealAdminForOwner(); };
+    afterCatalogChange = function () { updateGlobalInventoryCounters(); refreshTrade(); renderCatalog(); saveFullCatalog(); };
+    adjustStock = function(id, delta) { if (!adminMode) return; const p = catalog.find(p=>p.id===id); if(p) { p.stock=Math.max(0,p.stock+delta); afterCatalogChange(); } };
+    setPrice = function(id, value) { if (!adminMode) return; const p=catalog.find(p=>p.id===id), price=Number(value); if(!p || !Number.isInteger(price) || price<0) { alert('Escribe un precio válido.'); renderCatalog(); return; } const extra=p.storages[p.defaultStorageIndex||0].extra; if(price<extra) { alert('El precio no puede ser menor que el extra de capacidad.'); return; } p.basePrice=price-extra; afterCatalogChange(); };
+    resetAllStock = function() { if(!adminMode || !confirm('¿Restaurar las cantidades iniciales?')) return; catalog.forEach(p=>{p.stock=initialCatalog.find(x=>x.id===p.id)?.stock||0;}); afterCatalogChange(); };
+    resetFullCatalog = function() { if(adminMode && confirm('¿Restaurar todo el catálogo original?')) { catalog=structuredClone(initialCatalog); afterCatalogChange(); } };
+    handleBuyNow = function() { if(!currentModalProduct || currentModalProduct.stock<=0) return; const p=currentModalProduct; window.open(buildWhatsAppURL(p,p.colors[selectedColorIndex]||p.colors[0],p.storages[selectedStorageIndex]||p.storages[0],p.basePrice+(p.storages[selectedStorageIndex]||p.storages[0]).extra),'_blank','noopener,noreferrer'); };
+    window.hasUnsavedCatalogChanges = () => hasChanges;
+    window.addEventListener('beforeunload', event=> { if(hasChanges) {event.preventDefault();event.returnValue='';} });
+    document.addEventListener('DOMContentLoaded', loadSharedCatalog);
 </script>
+<script type="module" src="/admin.js"></script>
 </body>
 </html>
