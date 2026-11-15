@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brotehers iPhone | Especialistas Exclusivos en iPhone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
+                    colors: {
+                        oled: '#0b0b0f',
+                        appleBlue: '#0071e3',
+                        appleBlueHover: '#0077ed',
+                        appleGreen: '#34c759',
+                        appleRed: '#ff3b30',
+                        appleOrange: '#ff9500',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0b0f;
+            color: #f5f5f7;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0b0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-header {
+            background: rgba(11, 11, 15, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Tarjeta visible siempre por defecto (nunca opacity: 0 bloqueante) */
+        .iphone-card {
+            position: relative;
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.035);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            transform-style: preserve-3d;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            animation: cardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                transform: translateY(14px) scale(0.985);
+            }
+            to {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .iphone-card:hover {
+            border-color: rgba(255, 255, 255, 0.24);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.78), 0 0 32px rgba(0, 113, 227, 0.14);
+        }
+
+        .spotlight-overlay {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: radial-gradient(
+                500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.1),
+                transparent 42%
+            );
+            z-index: 1;
+        }
+
+        .iphone-card:hover .spotlight-overlay {
+            opacity: 1;
+        }
+
+        @keyframes floatPhone {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .phone-render-wrapper {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .iphone-card:hover .phone-render-wrapper {
+            animation: floatPhone 3s ease-in-out infinite;
+            transform: scale(1.04);
+        }
+
+        @keyframes urgentPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(1.03); }
+        }
+        .badge-urgent {
+            animation: urgentPulse 1.8s infinite ease-in-out;
+        }
+
+        .modal-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.94) translateY(14px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-backdrop.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    
+        @keyframes marquee { to { transform: translateX(-50%); } }
+        .marquee-track { display:flex; width:max-content; animation: marquee 28s linear infinite; }
+        .marquee-track:hover { animation-play-state: paused; }
+    </style>
+</head>
+<body class="selection:bg-appleBlue selection:text-white">
+
+    <!-- BARRA SUPERIOR FIJA -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-header">
+        <!-- Cinta de Inventario en Vivo -->
+        <div class="bg-gradient-to-r from-[#0071e3]/20 via-[#0071e3]/10 to-[#34c759]/15 border-b border-white/10 py-1.5 px-4">
+            <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+                <div class="flex items-center gap-2 font-medium text-white">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-appleGreen opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-appleGreen"></span>
+                    </span>
+                    <span>Inventario físico en vivo:</span>
+                    <span id="global-stock-counter" class="font-bold text-appleGreen bg-appleGreen/15 border border-appleGreen/30 px-2.5 py-0.5 rounded-full transition-all">
+                        3 iPhones disponibles en inventario físico listo para entrega
+                    </span>
+                </div>
+                <div class="hidden md:flex items-center gap-4 text-zinc-400 text-xs">
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-appleBlue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/></svg>
+                        Garantía Certificada
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-appleBlue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m-2 9h6m-3-3v6"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                        Entregas en Santo Domingo
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar Principal -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center group-hover:bg-appleBlue group-hover:border-appleBlue transition-colors">
+                    <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.32c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.72-1.3"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight text-white">Brotehers <span class="text-appleBlue">iPhone</span></span>
+                    <span class="hidden sm:inline-block text-[11px] text-zinc-400 ml-2 border-l border-white/15 pl-2">Exclusivo Apple</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-3">
+                <button id="toggle-admin-btn" type="button" onclick="toggleAdminMode()" class="hidden flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 transition-all">
+                    <svg class="w-3.5 h-3.5 text-appleBlue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="21" y1="4" x2="14" y2="4"/><line x1="10" y1="4" x2="3" y2="4"/><line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/><line x1="21" y1="20" x2="16" y2="20"/><line x1="12" y1="20" x2="3" y2="20"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="16" y1="18" x2="16" y2="22"/></svg>
+                    <span id="admin-btn-text">Gestionar Stock</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-10 sm:pt-36 sm:pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-appleBlue/15 blur-[130px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel text-xs font-medium text-zinc-300 mb-6">
+                <span class="w-2 h-2 rounded-full bg-appleBlue"></span>
+                <span>Brotehers iPhone • Equipos Certificados Listos para Entrega Inmediata</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-5 leading-[1.08]">
+                Tu próximo iPhone.<br>
+                <span class="bg-gradient-to-r from-white via-zinc-300 to-zinc-500 bg-clip-text text-transparent">
+                    Calidad verificada.
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-zinc-400 mb-8 font-normal">
+                Explora nuestro catálogo exclusivo desde el iPhone XR hasta el 16 Pro Max. Toca cualquier equipo para revisar su salud de batería, especificaciones y pedirlo directo por WhatsApp en <strong class="text-white font-semibold">Pesos Dominicanos (RD$)</strong>.
+            </p>
+
+            <!-- Barra de Estadísticas Rápidas -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
+                <div class="glass-panel rounded-2xl p-3.5 text-center">
+                    <div id="stat-total-units" class="text-2xl font-bold text-white">3</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Unidades en Tienda</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-3.5 text-center">
+                    <div id="stat-models-count" class="text-2xl font-bold text-appleBlue">3/14</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Modelos con Stock</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-3.5 text-center">
+                    <div class="text-2xl font-bold text-appleGreen">100%</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Desbloqueados Fábrica</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-3.5 text-center">
+                    <div class="text-2xl font-bold text-white">RD$</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Precios Transparentes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL DE ADMINISTRACIÓN RÁPIDA DE STOCK -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="overflow-hidden rounded-2xl border border-appleOrange/30 bg-appleOrange/10 py-2.5">
+            <div id="offers-marquee" class="marquee-track text-sm font-semibold text-appleOrange"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 text-xs">
+            <div class="glass-panel rounded-2xl p-4 flex items-center gap-3"><span class="text-2xl">🛡️</span><div><p class="font-bold text-white">Garantía de 30 días</p><p class="text-zinc-400">Cubre fallas de funcionamiento</p></div></div>
+            <div class="glass-panel rounded-2xl p-4 flex items-center gap-3"><span class="text-2xl">🔋</span><div><p class="font-bold text-white">Batería certificada</p><p class="text-zinc-400">Mostramos el % real de cada equipo</p></div></div>
+            <div class="glass-panel rounded-2xl p-4 flex items-center gap-3"><span class="text-2xl">📶</span><div><p class="font-bold text-white">Libres de fábrica</p><p class="text-zinc-400">Funcionan con cualquier compañía</p></div></div>
+        </div>
+    </section>
+
+    <section id="admin-banner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="rounded-2xl bg-appleBlue/10 border border-appleBlue/30 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-appleBlue/20 text-appleBlue">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white">Modo Gestión de Inventario Activo</h3>
+                    <p class="text-xs text-zinc-300">Usa los botones <span class="font-bold text-white">+</span> y <span class="font-bold text-white">-</span> en cada tarjeta para actualizar las cantidades disponibles al instante.</p>
+                </div>
+            </div>
+            <button type="button" onclick="resetAllStock()" class="text-xs font-medium px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors whitespace-nowrap">
+                Restaurar inventario inicial
+            </button>
+        </div>
+    </section>
+
+    <!-- CONTROLES DE FILTRADO Y BÚSQUEDA -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="glass-panel rounded-2xl p-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+            
+            <!-- Filtros por Serie -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 lg:pb-0" id="series-filters">
+                <button type="button" data-series="all" class="series-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black transition-all whitespace-nowrap">
+                    Todos
+                </button>
+                <button type="button" data-series="available" id="available-filter-btn" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-appleGreen/15 text-appleGreen border border-appleGreen/30 hover:bg-appleGreen/25 transition-all whitespace-nowrap">
+                    Disponibles (3)
+                </button>
+                <button type="button" data-series="xr-11" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    XR / 11
+                </button>
+                <button type="button" data-series="12" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    Serie 12
+                </button>
+                <button type="button" data-series="13" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    Serie 13
+                </button>
+                <button type="button" data-series="14" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    Serie 14
+                </button>
+                <button type="button" data-series="15" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    Serie 15
+                </button>
+                <button type="button" data-series="16" class="series-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-zinc-300 hover:bg-white/10 transition-all whitespace-nowrap">
+                    Serie 16
+                </button>
+            </div>
+
+            <!-- Filtro por Condición y Buscador -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <select id="sort-select" onchange="sortMode=this.value;renderCatalog()" class="bg-zinc-900/90 border border-white/10 text-zinc-200 text-xs font-medium rounded-xl px-3.5 py-2.5 outline-none">
+                    <option value="stock">Disponibles primero</option>
+                    <option value="asc">Precio: menor a mayor</option>
+                    <option value="desc">Precio: mayor a menor</option>
+                </select>
+                <select id="condition-filter" class="bg-zinc-900/90 border border-white/10 text-zinc-200 text-xs font-medium rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-appleBlue">
+                    <option value="all">Todos</option>
+                    <option value="Seminuevo Certificado">Seminuevo Certificado</option>
+                    <option value="Nuevo Sellado">Nuevo Sellado</option>
+                </select>
+
+                <div class="relative">
+                    <svg class="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="search-input" placeholder="Buscar modelo (ej. 13, 14 Plus)..." class="w-full sm:w-56 bg-zinc-900/90 border border-white/10 text-white placeholder-zinc-500 text-xs rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-appleBlue">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUADRÍCULA DE PRODUCTOS (CATÁLOGO IPHONE) -->
+    <script id="store-data" type="application/json">null</script>
+    <div id="admin-tools" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex flex-wrap gap-3">
+        <button type="button" onclick="addNewPhone()" class="px-4 py-2 rounded-xl bg-appleGreen/20 border border-appleGreen/40 text-xs font-bold text-appleGreen">＋ Agregar equipo nuevo</button>
+        <button type="button" onclick="publishAll()" class="px-4 py-2 rounded-xl bg-appleBlue text-xs font-bold text-white">📤 Publicar cambios para todos</button>
+        <button type="button" onclick="resetFullCatalog()" class="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs font-medium text-zinc-300">Restaurar catálogo original</button>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Las tarjetas se renderizan aquí inmediatamente -->
+        </div>
+
+        <!-- Estado vacío si no hay resultados de búsqueda -->
+        <div id="empty-state" class="hidden text-center py-20 glass-panel rounded-3xl">
+            <svg class="w-12 h-12 text-zinc-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <h3 class="text-lg font-semibold text-white">No encontramos ese modelo</h3>
+            <p class="text-sm text-zinc-400 mt-1">Intenta cambiar los filtros para ver los equipos de Brotehers iPhone.</p>
+            <button type="button" onclick="resetFilters()" class="mt-4 px-5 py-2 rounded-full bg-appleBlue text-white text-xs font-semibold hover:bg-appleBlueHover transition-colors">
+                Ver todos los iPhones
+            </button>
+        </div>
+    </main>
+
+    <!-- FOOTER PROFESIONAL -->
+    <section id="testimonials-section" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <h2 class="text-2xl font-bold text-white mb-6">Lo que dicen nuestros clientes</h2>
+        <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="glass-panel rounded-3xl p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-white">♻️ Entrega tu equipo actual</h2>
+            <p class="text-sm text-zinc-400 mt-1 mb-5">Calcula un estimado de descuento por tu iPhone. El valor final se confirma por WhatsApp tras revisarlo.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <select id="trade-model" onchange="calcTrade()" class="bg-zinc-900/90 border border-white/10 text-sm rounded-xl px-3.5 py-3 text-zinc-200 outline-none"></select>
+                <select id="trade-cond" onchange="calcTrade()" class="bg-zinc-900/90 border border-white/10 text-sm rounded-xl px-3.5 py-3 text-zinc-200 outline-none">
+                    <option value="0.55">Excelente (sin marcas)</option>
+                    <option value="0.45">Bueno (detalles leves)</option>
+                    <option value="0.35">Regular (golpes / pantalla marcada)</option>
+                </select>
+                <a id="trade-wa" target="_blank" rel="noopener noreferrer" class="text-center py-3 rounded-xl bg-[#25d366] text-black text-sm font-bold">Cotizar por WhatsApp</a>
+            </div>
+            <p class="mt-4 text-lg text-zinc-300">Estimado de descuento: <span id="trade-result" class="font-extrabold text-appleGreen"></span></p>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <h2 class="text-2xl font-bold text-white mb-6">Preguntas frecuentes</h2>
+        <div id="faq-list" class="space-y-3"></div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <h2 class="text-2xl font-bold text-white mb-6">📍 Ubicación y zonas de entrega</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-white/10 bg-[#0e1a24] overflow-hidden relative">
+                <svg viewBox="0 0 400 300" class="w-full h-72" role="img" aria-label="Mapa de Santo Domingo con Los Alcarrizos marcado">
+                    <rect width="400" height="300" fill="#0e1a24"/>
+                    <path d="M0 238 Q60 226 120 236 T250 232 T400 240 L400 300 L0 300Z" fill="#12395a"/>
+                    <text x="200" y="283" text-anchor="middle" fill="#4f86b5" font-size="11" letter-spacing="3">MAR CARIBE</text>
+                    <path d="M62 232 L48 120 Q60 50 140 38 L282 34 Q350 46 358 120 L342 236 Q200 226 62 232Z" fill="#34c759" fill-opacity="0.16" stroke="#34c759" stroke-width="2" stroke-dasharray="6 4"/>
+                    <path d="M250 232 Q262 170 252 120 Q246 80 262 40" fill="none" stroke="#3a7fb8" stroke-width="3"/>
+                    <text x="272" y="150" fill="#6aa7d6" font-size="9">Río Ozama</text>
+                    <rect x="152" y="150" width="96" height="70" rx="14" fill="#fff" fill-opacity="0.06" stroke="#fff" stroke-opacity="0.35"/>
+                    <text x="200" y="190" text-anchor="middle" fill="#e5e5ea" font-size="11" font-weight="700">Distrito Nacional</text>
+                    <text x="200" y="76" text-anchor="middle" fill="#9be5ae" font-size="11">Santo Domingo Norte</text>
+                    <text x="312" y="170" text-anchor="middle" fill="#9be5ae" font-size="11">Santo Domingo Este</text>
+                    <text x="104" y="206" text-anchor="middle" fill="#9be5ae" font-size="11">Sto. Dgo. Oeste</text>
+                    <circle cx="104" cy="118" r="22" fill="#0071e3" fill-opacity="0.25"/>
+                    <path d="M104 134 C92 118 88 112 88 104 A16 16 0 1 1 120 104 C120 112 116 118 104 134Z" fill="#0071e3" stroke="#fff" stroke-width="2"/>
+                    <circle cx="104" cy="104" r="5.5" fill="#fff"/>
+                    <text x="104" y="148" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">Los Alcarrizos</text>
+                    <text x="104" y="161" text-anchor="middle" fill="#7fb8ff" font-size="9">¡Estamos aquí!</text>
+                    <rect x="12" y="12" width="168" height="22" rx="11" fill="#34c759" fill-opacity="0.18" stroke="#34c759" stroke-opacity="0.5"/>
+                    <text x="96" y="27" text-anchor="middle" fill="#34c759" font-size="10.5" font-weight="700">Entregas en toda esta zona</text>
+                </svg>
+                <a id="map-link" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 text-xs font-semibold text-appleBlue border-t border-white/10 hover:bg-white/5">Ver en Google Maps →</a>
+            </div>
+            <div class="glass-panel rounded-2xl p-5">
+                <p class="text-sm text-zinc-400 mb-3">Entregas solamente en Santo Domingo:</p>
+                <ul id="zones-list" class="space-y-2 text-sm text-white"></ul>
+                <p class="text-xs text-zinc-500 mt-4">Estamos ubicados en Los Alcarrizos. Coordinamos la entrega por WhatsApp.</p>
+            </div>
+        </div>
+    </section>
+
+    <a id="floating-wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full bg-[#25d366] shadow-lg shadow-black/50 flex items-center justify-center text-2xl hover:scale-110 transition-transform">💬</a>
+
+    <div id="compare-bar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass-header rounded-full px-5 py-3 flex items-center gap-3 border border-white/20">
+        <span id="compare-count" class="text-xs text-white font-semibold"></span>
+        <button type="button" onclick="openCompare()" class="px-4 py-1.5 rounded-full bg-appleBlue text-white text-xs font-bold">Comparar</button>
+        <button type="button" onclick="compareList=[];renderCatalog()" class="text-xs text-zinc-400 hover:text-white">Limpiar</button>
+    </div>
+
+    <div id="compare-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto" onclick="if(event.target===this)closeCompare()">
+        <div class="max-w-4xl mx-auto bg-[#121217] border border-white/10 rounded-3xl p-5 sm:p-7">
+            <div class="flex items-center justify-between mb-4"><h3 class="text-xl font-bold text-white">Comparador</h3><button type="button" onclick="closeCompare()" class="text-zinc-400 hover:text-white text-2xl leading-none">×</button></div>
+            <div class="overflow-x-auto"><table id="compare-table" class="w-full text-xs text-left"></table></div>
+        </div>
+    </div>
+
+    <div id="editor-modal" class="hidden fixed inset-0 z-[60] bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto">
+        <div class="max-w-3xl mx-auto bg-[#121217] border border-white/10 rounded-3xl p-5 sm:p-7">
+            <div class="flex items-center justify-between mb-4"><h3 class="text-xl font-bold text-white">Editar equipo</h3><button type="button" onclick="closeEditor()" class="text-zinc-400 hover:text-white text-2xl leading-none">×</button></div>
+            <div id="editor-body"></div>
+            <div class="flex flex-wrap gap-3 mt-6 pt-4 border-t border-white/10">
+                <button type="button" onclick="saveEditor()" class="flex-1 py-3 rounded-2xl bg-appleBlue text-white text-sm font-bold">Guardar cambios</button>
+                <button type="button" onclick="closeEditor()" class="px-5 py-3 rounded-2xl bg-white/5 text-zinc-300 text-sm">Cancelar</button>
+                <button type="button" onclick="deletePhone()" class="px-5 py-3 rounded-2xl bg-appleRed/15 border border-appleRed/40 text-appleRed text-sm font-semibold">Eliminar equipo</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-white/10 bg-[#07070a] py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.32c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.72-1.3"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-white">Brotehers iPhone</p>
+                    <p class="text-xs text-zinc-500">Venta exclusiva de dispositivos iPhone • WhatsApp: +1 (809) 665-4476</p>
+                </div>
+            </div>
+            <div class="text-xs text-zinc-500 text-center md:text-right">
+                Todos los precios están expresados en Pesos Dominicanos (RD$). Inventario actualizado en tiempo real.
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DETALLADO DE PRODUCTO -->
+    <div id="product-modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md">
+        <div class="modal-content relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#121217] border border-white/15 shadow-2xl">
+            
+            <!-- Botón Cerrar -->
+            <button type="button" onclick="closeProductModal()" aria-label="Cerrar ventana" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-12">
+                <!-- Columna Izquierda: Render Interactivo y Selector de Color -->
+                <div class="md:col-span-5 bg-gradient-to-b from-white/[0.04] to-transparent p-6 sm:p-8 flex flex-col items-center justify-between border-b md:border-b-0 md:border-r border-white/10">
+                    <div class="w-full flex items-center justify-between">
+                        <span id="modal-condition-badge" class="text-[11px] font-semibold px-3 py-1 rounded-full bg-appleBlue/20 text-appleBlue border border-appleBlue/30">
+                            Seminuevo Certificado
+                        </span>
+                        <span id="modal-stock-badge" class="text-xs font-semibold text-appleGreen">
+                            ¡Última unidad disponible!
+                        </span>
+                    </div>
+
+                    <!-- Contenedor del iPhone Vectorial Dinámico -->
+                    <div id="modal-phone-preview" class="my-6 w-44 sm:w-48 transition-all duration-500 transform hover:scale-105">
+                        <!-- Render SVG inyectado dinámicamente -->
+                    </div>
+
+                    <!-- Selector de Colores -->
+                    <div class="w-full text-center">
+                        <p class="text-xs text-zinc-400 mb-2.5">
+                            Acabado: <span id="modal-selected-color-name" class="text-white font-medium">Negro Medianoche</span>
+                        </p>
+                        <div id="modal-color-swatches" class="flex items-center justify-center gap-3 flex-wrap">
+                            <!-- Círculos de color dinámicos -->
+                        </div>
+                        <p id="modal-locked-note" class="hidden text-[11px] text-zinc-500 mt-2.5"></p>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Especificaciones, Almacenamiento y Compra -->
+                <div class="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-appleBlue mb-1" id="modal-series-tag">Serie 13</div>
+                        <h2 id="modal-title" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">iPhone 13</h2>
+                        
+                        <!-- Precio Dinámico en RD$ -->
+                        <div class="mt-3 mb-6 flex items-baseline gap-3 flex-wrap">
+                            <span id="modal-price" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">RD$ 14,500</span>
+                            <span class="text-xs text-zinc-400">Pago contra entrega / Transferencia</span>
+                        </div>
+
+                        <!-- Selector de Almacenamiento -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2.5">
+                                Capacidad de almacenamiento
+                            </label>
+                            <div id="modal-storage-options" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                                <!-- Botones de capacidad dinámicos -->
+                            </div>
+                        </div>
+
+                        <div id="modal-notify" class="hidden mb-6 p-4 rounded-2xl bg-appleOrange/10 border border-appleOrange/30">
+                            <p class="text-xs font-semibold text-appleOrange mb-2">🔔 ¿Lo quieres? Te avisamos cuando llegue</p>
+                            <div class="flex gap-2">
+                                <input id="notify-phone" type="tel" inputmode="tel" placeholder="Tu WhatsApp (809...)" class="flex-1 min-w-0 bg-zinc-900/90 border border-white/10 text-xs rounded-xl px-3 py-2.5 outline-none text-white">
+                                <button type="button" onclick="submitNotify()" class="px-4 rounded-xl bg-appleOrange text-black text-xs font-bold">Avísame</button>
+                            </div>
+                            <p id="notify-msg" class="text-[11px] text-zinc-400 mt-2"></p>
+                        </div>
+                        <!-- Ficha Técnica Detallada -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2.5">
+                                Especificaciones Técnicas del Equipo
+                            </label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">
+                                    <svg class="w-4 h-4 text-appleBlue shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                                    <div>
+                                        <span class="text-zinc-400 block">Procesador</span>
+                                        <span id="spec-chip" class="text-white font-semibold">Chip A15 Bionic</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">
+                                    <svg class="w-4 h-4 text-appleBlue shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                                    <div>
+                                        <span class="text-zinc-400 block">Pantalla</span>
+                                        <span id="spec-display" class="text-white font-semibold">6.1" Super Retina XDR</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">
+                                    <svg class="w-4 h-4 text-appleBlue shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    <div>
+                                        <span class="text-zinc-400 block">Cámaras</span>
+                                        <span id="spec-camera" class="text-white font-semibold">Dual 12MP</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">
+                                    <svg class="w-4 h-4 text-appleGreen shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/><path d="M11 6l-4 6h6l-4 6"/></svg>
+                                    <div>
+                                        <span class="text-zinc-400 block">Salud de Batería</span>
+                                        <span id="spec-battery" class="text-appleGreen font-semibold">84%</span>
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-2 p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">
+                                    <svg class="w-4 h-4 text-appleBlue shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                    <div>
+                                        <span class="text-zinc-400 block">Conectividad y SIM</span>
+                                        <span id="spec-sim" class="text-white font-semibold">5G Libre de Fábrica • Nano-SIM + eSIM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción Directa a WhatsApp -->
+                    <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+                        
+
+                        <a id="modal-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 py-3.5 px-5 rounded-2xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#25D366] font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.59 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zM12.07 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.76.98 1-3.66-.24-.38a9.86 9.86 0 0 1-1.51-5.25c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.89 7c0 5.46-4.44 9.89-9.88 9.89zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+                            <span id="modal-wa-text">Pedir por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN TOAST DE COMPRA -->
+    <div id="purchase-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="glass-panel bg-[#14181f]/95 border border-appleGreen/40 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 max-w-sm">
+            <div class="w-10 h-10 rounded-full bg-appleGreen/20 text-appleGreen flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-white">¡Conectando con Brotehers iPhone!</h4>
+                <p id="toast-message" class="text-xs text-zinc-300 mt-0.5">Abriendo WhatsApp +1 (809) 665-4476...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LÓGICA DE APLICACIÓN 100% AUTÓNOMA -->
+    <script>
+        const WHATSAPP_NUMBER = '18096654476';
+        const STORAGE_KEY = 'brotehers_iphone_inventory_v1';
+
+        // Catálogo completo (desde XS/XR hasta 16 Pro Max)
+        const initialCatalog = [
+            {
+                id: 'iphone-13',
+                name: 'iPhone 13',
+                series: '13',
+                seriesLabel: 'Serie 13 • Disponible Ahora',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '84% (Original)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                extraNote: '128GB • Negro Medianoche • Batería 84%',
+                stock: 1,
+                defaultStorageIndex: 1,
+                cameraType: 'dual-diagonal',
+                chip: 'Chip A15 Bionic • 5G',
+                display: '6.1" Super Retina XDR OLED',
+                camera: 'Dual 12MP Modo Cine • Face ID',
+                basePrice: 13000,
+                storages: [
+                    { size: '64GB', extra: 0, locked: true },
+                    { size: '128GB', extra: 1500 },
+                    { size: '256GB', extra: 3500, locked: true }
+                ],
+                colors: [
+                    { name: 'Negro Medianoche', hex: '#1c1d1f', frame: '#323842' },
+                    { name: 'Blanco Estelar', hex: '#f3efe9', frame: '#d6d0c7', locked: true },
+                    { name: 'Azul', hex: '#2e6b94', frame: '#215173', locked: true },
+                    { name: 'Rosa', hex: '#f2d3d8', frame: '#d6b2b8', locked: true },
+                    { name: 'Rojo ((PRODUCT)RED)', hex: '#d91e2a', frame: '#9f121b', locked: true },
+                    { name: 'Verde', hex: '#394c38', frame: '#4f6a4d', locked: true }
+                ]
+            },
+            {
+                id: 'iphone-14',
+                name: 'iPhone 14 (eSIM)',
+                series: '14',
+                seriesLabel: 'Serie 14 • Versión eSIM USA',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '88% (Excelente estado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                extraNote: '128GB • Rojo • Versión eSIM • Batería 88%',
+                stock: 1,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-diagonal',
+                chip: 'Chip A15 Bionic (GPU 5 núcleos)',
+                display: '6.1" Super Retina XDR OLED',
+                camera: 'Dual 12MP Photonic Engine • Face ID',
+                basePrice: 17500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3000, locked: true },
+                    { size: '512GB', extra: 6000, locked: true }
+                ],
+                colors: [
+                    { name: 'Rojo ((PRODUCT)RED)', hex: '#d91e2a', frame: '#9f121b' },
+                    { name: 'Medianoche', hex: '#1c1d1f', frame: '#323842', locked: true },
+                    { name: 'Azul', hex: '#9ab4cc', frame: '#7b97b0', locked: true },
+                    { name: 'Morado', hex: '#e5ddea', frame: '#bfb2c7', locked: true }
+                ]
+            },
+            {
+                id: 'iphone-14-plus',
+                name: 'iPhone 14 Plus',
+                series: '14',
+                seriesLabel: 'Serie 14 Plus • Pantalla 6.7"',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '84% (Larga duración)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                extraNote: '128GB • Morado • Pantalla 6.7" • Batería 84%',
+                stock: 1,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-diagonal',
+                chip: 'Chip A15 Bionic (GPU 5 núcleos)',
+                display: '6.7" Super Retina XDR OLED',
+                camera: 'Dual 12MP Photonic Engine • Face ID',
+                basePrice: 21500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3000, locked: true },
+                    { size: '512GB', extra: 6000, locked: true }
+                ],
+                colors: [
+                    { name: 'Morado', hex: '#e5ddea', frame: '#bbaec4' },
+                    { name: 'Medianoche', hex: '#1c1d1f', frame: '#323842', locked: true },
+                    { name: 'Blanco Estelar', hex: '#f3efe9', frame: '#d6d0c7', locked: true },
+                    { name: 'Rojo ((PRODUCT)RED)', hex: '#d91e2a', frame: '#9f121b', locked: true }
+                ]
+            },
+            {
+                id: 'iphone-xs',
+                name: 'iPhone XS',
+                series: 'xr-11',
+                seriesLabel: 'Serie XS',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '88% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A12 Bionic',
+                display: '5.8" Super Retina OLED',
+                camera: 'Dual 12MP • Face ID',
+                basePrice: 10500,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Gris Espacial', hex: '#343437', frame: '#4d4d52' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' }
+                ]
+            },
+            {
+                id: 'iphone-xs-max',
+                name: 'iPhone XS Max',
+                series: 'xr-11',
+                seriesLabel: 'Serie XS Max',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '88% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A12 Bionic',
+                display: '6.5" Super Retina OLED',
+                camera: 'Dual 12MP • Face ID',
+                basePrice: 12500,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Gris Espacial', hex: '#343437', frame: '#4d4d52' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' }
+                ]
+            },
+            {
+                id: 'iphone-xr',
+                name: 'iPhone XR',
+                series: 'xr-11',
+                seriesLabel: 'Serie XR',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '89% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'single',
+                chip: 'Chip A12 Bionic',
+                display: '6.1" Liquid Retina HD',
+                camera: '12MP Gran Angular • Face ID',
+                basePrice: 9500,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '128GB', extra: 1500 }
+                ],
+                colors: [
+                    { name: 'Negro', hex: '#262629', frame: '#3a3a3f' },
+                    { name: 'Blanco', hex: '#f2f2f5', frame: '#d4d4d8' },
+                    { name: 'Azul Coral', hex: '#2b8cbe', frame: '#1e6b94' },
+                    { name: '(PRODUCT)RED', hex: '#d91e2a', frame: '#9f121b' }
+                ]
+            },
+            {
+                id: 'iphone-11',
+                name: 'iPhone 11',
+                series: 'xr-11',
+                seriesLabel: 'Serie 11',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '90% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A13 Bionic',
+                display: '6.1" Liquid Retina HD',
+                camera: 'Dual 12MP Ultra Gran Angular',
+                basePrice: 11500,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '128GB', extra: 1500 }
+                ],
+                colors: [
+                    { name: 'Negro', hex: '#232326', frame: '#38383d' },
+                    { name: 'Morado Pastel', hex: '#d5c6e0', frame: '#b8a6c7' },
+                    { name: 'Verde Menta', hex: '#aee0cd', frame: '#8ec4b0' },
+                    { name: 'Blanco', hex: '#f5f5f7', frame: '#d1d1d6' }
+                ]
+            },
+            {
+                id: 'iphone-11-pro',
+                name: 'iPhone 11 Pro',
+                series: 'xr-11',
+                seriesLabel: 'Serie 11 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '89% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A13 Bionic',
+                display: '5.8" Super Retina XDR OLED',
+                camera: 'Triple 12MP Ultra Gran Angular + Teleobjetivo',
+                basePrice: 12500,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Verde Medianoche', hex: '#39473e', frame: '#4e6155' },
+                    { name: 'Gris Espacial', hex: '#343437', frame: '#4d4d52' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' }
+                ]
+            },
+            {
+                id: 'iphone-11-pro-max',
+                name: 'iPhone 11 Pro Max',
+                series: 'xr-11',
+                seriesLabel: 'Serie 11 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '88% (Grado A+ Certificado)',
+                simInfo: '4G LTE Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A13 Bionic',
+                display: '6.5" Super Retina XDR OLED',
+                camera: 'Triple 12MP Ultra Gran Angular + Teleobjetivo',
+                basePrice: 14000,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Verde Medianoche', hex: '#39473e', frame: '#4e6155' },
+                    { name: 'Gris Espacial', hex: '#343437', frame: '#4d4d52' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' }
+                ]
+            },
+            {
+                id: 'iphone-12',
+                name: 'iPhone 12',
+                series: '12',
+                seriesLabel: 'Serie 12',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '91% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A14 Bionic • 5G',
+                display: '6.1" Super Retina XDR OLED',
+                camera: 'Dual 12MP Modo Noche',
+                basePrice: 13000,
+                storages: [
+                    { size: '64GB', extra: 0 },
+                    { size: '128GB', extra: 1500 }
+                ],
+                colors: [
+                    { name: 'Azul Pacífico', hex: '#1c446e', frame: '#153454' },
+                    { name: 'Negro', hex: '#222225', frame: '#38383d' },
+                    { name: 'Blanco', hex: '#f4f4f6', frame: '#d2d2d7' },
+                    { name: 'Morado', hex: '#b6a4d6', frame: '#9784ba' }
+                ]
+            },
+            {
+                id: 'iphone-12-pro',
+                name: 'iPhone 12 Pro',
+                series: '12',
+                seriesLabel: 'Serie 12 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '90% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A14 Bionic • 5G',
+                display: '6.1" Super Retina XDR OLED',
+                camera: 'Triple 12MP Pro + Escáner LiDAR',
+                basePrice: 16500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Azul Pacífico', hex: '#2d4b5a', frame: '#456b7d' },
+                    { name: 'Grafito', hex: '#38383b', frame: '#525257' },
+                    { name: 'Oro', hex: '#e8d5b7', frame: '#cbb38e' },
+                    { name: 'Plata', hex: '#e6e7e9', frame: '#c4c6ca' }
+                ]
+            },
+            {
+                id: 'iphone-12-pro-max',
+                name: 'iPhone 12 Pro Max',
+                series: '12',
+                seriesLabel: 'Serie 12 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '90% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A14 Bionic • 5G',
+                display: '6.7" Super Retina XDR OLED',
+                camera: 'Triple 12MP Pro + Escáner LiDAR',
+                basePrice: 18500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 2500 }
+                ],
+                colors: [
+                    { name: 'Azul Pacífico', hex: '#2d4b5a', frame: '#456b7d' },
+                    { name: 'Grafito', hex: '#38383b', frame: '#525257' },
+                    { name: 'Oro', hex: '#e8d5b7', frame: '#cbb38e' },
+                    { name: 'Plata', hex: '#e6e7e9', frame: '#c4c6ca' }
+                ]
+            },
+            {
+                id: 'iphone-13-pro',
+                name: 'iPhone 13 Pro',
+                series: '13',
+                seriesLabel: 'Serie 13 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '91% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A15 Bionic (GPU 5 núcleos)',
+                display: '6.1" OLED ProMotion 120Hz',
+                camera: 'Triple 12MP Pro + Macro + LiDAR',
+                basePrice: 21000,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 2500 },
+                    { size: '512GB', extra: 5500 }
+                ],
+                colors: [
+                    { name: 'Azul Sierra', hex: '#8fb1cc', frame: '#6e92b0' },
+                    { name: 'Verde Alpino', hex: '#3d523e', frame: '#526e53' },
+                    { name: 'Grafito', hex: '#343437', frame: '#4e4e52' },
+                    { name: 'Oro', hex: '#ebd8bd', frame: '#cbb392' }
+                ]
+            },
+            {
+                id: 'iphone-13-pro-max',
+                name: 'iPhone 13 Pro Max',
+                series: '13',
+                seriesLabel: 'Serie 13 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '91% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A15 Bionic (GPU 5 núcleos)',
+                display: '6.7" OLED ProMotion 120Hz',
+                camera: 'Triple 12MP Pro + Macro + LiDAR',
+                basePrice: 23500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 2500 },
+                    { size: '512GB', extra: 5500 }
+                ],
+                colors: [
+                    { name: 'Azul Sierra', hex: '#8fb1cc', frame: '#6e92b0' },
+                    { name: 'Verde Alpino', hex: '#3d523e', frame: '#526e53' },
+                    { name: 'Grafito', hex: '#343437', frame: '#4e4e52' },
+                    { name: 'Oro', hex: '#ebd8bd', frame: '#cbb392' }
+                ]
+            },
+            {
+                id: 'iphone-14-pro',
+                name: 'iPhone 14 Pro',
+                series: '14',
+                seriesLabel: 'Serie 14 Pro',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '92% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A16 Bionic • Dynamic Island',
+                display: '6.1" OLED Always-On 120Hz',
+                camera: 'Principal 48MP + Teleobjetivo',
+                basePrice: 25000,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3000 },
+                    { size: '512GB', extra: 6000 }
+                ],
+                colors: [
+                    { name: 'Morado Oscuro', hex: '#4a3c54', frame: '#635170' },
+                    { name: 'Negro Espacial', hex: '#262629', frame: '#3d3d42' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' }
+                ]
+            },
+            {
+                id: 'iphone-14-pro-max',
+                name: 'iPhone 14 Pro Max',
+                series: '14',
+                seriesLabel: 'Serie 14 Pro Max',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '92% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A16 Bionic • Dynamic Island',
+                display: '6.7" OLED Always-On 120Hz',
+                camera: 'Principal 48MP + Teleobjetivo',
+                basePrice: 29500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3000 },
+                    { size: '512GB', extra: 6000 }
+                ],
+                colors: [
+                    { name: 'Morado Oscuro', hex: '#4a3c54', frame: '#635170' },
+                    { name: 'Negro Espacial', hex: '#262629', frame: '#3d3d42' },
+                    { name: 'Oro', hex: '#e6d3b5', frame: '#c4ae8c' },
+                    { name: 'Plata', hex: '#e4e5e7', frame: '#c2c4c7' }
+                ]
+            },
+            {
+                id: 'iphone-15',
+                name: 'iPhone 15',
+                series: '15',
+                seriesLabel: 'Serie 15',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '95% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-diagonal',
+                chip: 'Chip A16 Bionic • Dynamic Island',
+                display: '6.1" Super Retina XDR • USB-C',
+                camera: 'Cámara Gran Angular 48MP',
+                basePrice: 28500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3500 }
+                ],
+                colors: [
+                    { name: 'Negro', hex: '#2b2c2f', frame: '#42444a' },
+                    { name: 'Azul Pastel', hex: '#d3e1eb', frame: '#b3c6d4' },
+                    { name: 'Rosa Pastel', hex: '#f2d8df', frame: '#d6b6bf' },
+                    { name: 'Verde Pastel', hex: '#d4e6d5', frame: '#b2cab4' }
+                ]
+            },
+            {
+                id: 'iphone-15-plus',
+                name: 'iPhone 15 Plus',
+                series: '15',
+                seriesLabel: 'Serie 15 Plus • Pantalla 6.7"',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '95% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-diagonal',
+                chip: 'Chip A16 Bionic • Dynamic Island',
+                display: '6.7" Super Retina XDR • USB-C',
+                camera: 'Cámara Gran Angular 48MP',
+                basePrice: 32500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3500 }
+                ],
+                colors: [
+                    { name: 'Negro', hex: '#2b2c2f', frame: '#42444a' },
+                    { name: 'Azul Pastel', hex: '#d3e1eb', frame: '#b3c6d4' },
+                    { name: 'Rosa Pastel', hex: '#f2d8df', frame: '#d6b6bf' },
+                    { name: 'Verde Pastel', hex: '#d4e6d5', frame: '#b2cab4' }
+                ]
+            },
+            {
+                id: 'iphone-15-pro',
+                name: 'iPhone 15 Pro',
+                series: '15',
+                seriesLabel: 'Serie 15 Pro • Titanio',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '94% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A17 Pro (3nm) • USB-C 3',
+                display: '6.1" OLED ProMotion 120Hz',
+                camera: '48MP + Zoom Óptico 3x',
+                basePrice: 34500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 3500 },
+                    { size: '512GB', extra: 7000 }
+                ],
+                colors: [
+                    { name: 'Titanio Natural', hex: '#9a958d', frame: '#b3aea6' },
+                    { name: 'Titanio Azul', hex: '#2d3744', frame: '#425063' },
+                    { name: 'Titanio Blanco', hex: '#ecebe6', frame: '#d1cfc9' },
+                    { name: 'Titanio Negro', hex: '#272729', frame: '#3f3f42' }
+                ]
+            },
+            {
+                id: 'iphone-15-pro-max',
+                name: 'iPhone 15 Pro Max',
+                series: '15',
+                seriesLabel: 'Serie 15 Pro • Titanio',
+                condition: 'Seminuevo Certificado',
+                batteryHealth: '94% (Grado A+ Certificado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A17 Pro (3nm) • USB-C 3',
+                display: '6.7" OLED ProMotion 120Hz',
+                camera: '48MP + Zoom Óptico 5x Tetraprisma',
+                basePrice: 39500,
+                storages: [
+                    { size: '256GB', extra: 0 },
+                    { size: '512GB', extra: 5500 },
+                    { size: '1TB', extra: 11000 }
+                ],
+                colors: [
+                    { name: 'Titanio Natural', hex: '#9a958d', frame: '#b3aea6' },
+                    { name: 'Titanio Azul', hex: '#2d3744', frame: '#425063' },
+                    { name: 'Titanio Blanco', hex: '#ecebe6', frame: '#d1cfc9' },
+                    { name: 'Titanio Negro', hex: '#272729', frame: '#3f3f42' }
+                ]
+            },
+            {
+                id: 'iphone-16',
+                name: 'iPhone 16',
+                series: '16',
+                seriesLabel: 'Serie 16 • Apple Intelligence',
+                condition: 'Nuevo Sellado',
+                batteryHealth: '100% (Nuevo Sellado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A18 • Control de Cámara',
+                display: '6.1" Super Retina XDR OLED',
+                camera: 'Sistema Fusion 48MP + Macro',
+                basePrice: 36000,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 4500 }
+                ],
+                colors: [
+                    { name: 'Ultramarino', hex: '#4b68c4', frame: '#3751a3' },
+                    { name: 'Verde Azulado', hex: '#498b88', frame: '#346e6b' },
+                    { name: 'Rosa', hex: '#e89ec0', frame: '#cc7ea2' },
+                    { name: 'Negro', hex: '#242528', frame: '#3a3c40' }
+                ]
+            },
+            {
+                id: 'iphone-16-plus',
+                name: 'iPhone 16 Plus',
+                series: '16',
+                seriesLabel: 'Serie 16 Plus • Pantalla 6.7"',
+                condition: 'Nuevo Sellado',
+                batteryHealth: '100% (Nuevo Sellado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'dual-vertical',
+                chip: 'Chip A18 • Control de Cámara',
+                display: '6.7" Super Retina XDR OLED',
+                camera: 'Sistema Fusion 48MP + Macro',
+                basePrice: 41000,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 4500 }
+                ],
+                colors: [
+                    { name: 'Ultramarino', hex: '#4b68c4', frame: '#3751a3' },
+                    { name: 'Verde Azulado', hex: '#498b88', frame: '#346e6b' },
+                    { name: 'Rosa', hex: '#e89ec0', frame: '#cc7ea2' },
+                    { name: 'Negro', hex: '#242528', frame: '#3a3c40' }
+                ]
+            },
+            {
+                id: 'iphone-16-pro',
+                name: 'iPhone 16 Pro',
+                series: '16',
+                seriesLabel: 'Serie 16 Pro • Titanio Grado 5',
+                condition: 'Nuevo Sellado',
+                batteryHealth: '100% (Nuevo Sellado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A18 Pro • Apple Intelligence',
+                display: '6.3" Super Retina XDR 120Hz',
+                camera: '48MP Fusion + 48MP Ultra Gran Angular',
+                basePrice: 44500,
+                storages: [
+                    { size: '128GB', extra: 0 },
+                    { size: '256GB', extra: 5000 },
+                    { size: '512GB', extra: 10000 },
+                    { size: '1TB', extra: 15000 }
+                ],
+                colors: [
+                    { name: 'Titanio del Desierto', hex: '#cbb39b', frame: '#b0977e' },
+                    { name: 'Titanio Natural', hex: '#9e9991', frame: '#b5b0a8' },
+                    { name: 'Titanio Negro', hex: '#222224', frame: '#3b3b3f' },
+                    { name: 'Titanio Blanco', hex: '#f0efeb', frame: '#d4d3cf' }
+                ]
+            },
+            {
+                id: 'iphone-16-pro-max',
+                name: 'iPhone 16 Pro Max',
+                series: '16',
+                seriesLabel: 'Serie 16 Pro • Titanio Grado 5',
+                condition: 'Nuevo Sellado',
+                batteryHealth: '100% (Nuevo Sellado)',
+                simInfo: '5G Libre de Fábrica • Doble eSIM (Versión USA)',
+                stock: 0,
+                defaultStorageIndex: 0,
+                cameraType: 'triple-pro',
+                chip: 'Chip A18 Pro • Apple Intelligence',
+                display: '6.9" Super Retina XDR 120Hz',
+                camera: '48MP Fusion + 48MP Ultra Gran Angular',
+                basePrice: 49500,
+                storages: [
+                    { size: '256GB', extra: 0 },
+                    { size: '512GB', extra: 7500 },
+                    { size: '1TB', extra: 15000 }
+                ],
+                colors: [
+                    { name: 'Titanio del Desierto', hex: '#cbb39b', frame: '#b0977e' },
+                    { name: 'Titanio Natural', hex: '#9e9991', frame: '#b5b0a8' },
+                    { name: 'Titanio Negro', hex: '#222224', frame: '#3b3b3f' },
+                    { name: 'Titanio Blanco', hex: '#f0efeb', frame: '#d4d3cf' }
+                ]
+            }
+        ];
+
+        // Cargar inventario guardado en localStorage o usar el inicial
+        function loadSavedCatalog() {
+            const base = JSON.parse(JSON.stringify(initialCatalog));
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return base;
+                const savedStocks = JSON.parse(raw);
+                if (savedStocks && typeof savedStocks === 'object') {
+                    base.forEach(item => {
+                        if (typeof savedStocks[item.id] === 'number') {
+                            item.stock = Math.max(0, savedStocks[item.id]);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('No se pudo leer inventario local, usando valores por defecto.');
+            }
+            return base;
+        }
+
+        function saveCatalogStocks() {
+            try {
+                const stockMap = {};
+                catalog.forEach(item => {
+                    stockMap[item.id] = item.stock;
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(stockMap));
+            } catch (e) {
+                console.warn('No se pudo guardar en localStorage.');
+            }
+        }
+
+        let catalog = loadSavedCatalog();
+        let activeSeries = 'all';
+        let activeCondition = 'all';
+        let searchQuery = '';
+        let adminMode = false;
+
+        let currentModalProduct = null;
+        let selectedColorIndex = 0;
+        let selectedStorageIndex = 0;
+
+        // Opciones restringidas: solo aplican mientras el equipo tiene stock
+        function isColorLocked(p, c) { return p.stock > 0 && !!c.locked; }
+        function isStorageLocked(p, s) { return p.stock > 0 && !!s.locked; }
+
+        // Formateador de Pesos Dominicanos (RD$)
+        function formatDOP(amount) {
+            return 'RD$ ' + amount.toLocaleString('es-DO', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        // Generador Vectorial SVG de iPhone por modelo y color
+        function generatePhoneSVG(product, colorObj) {
+            const bodyHex = colorObj.hex;
+            const frameHex = colorObj.frame;
+            const isPro = product.cameraType === 'triple-pro';
+            const uid = `${product.id}-${Math.random().toString(36).slice(2, 7)}`;
+
+            let cameraModuleSVG = '';
+            if (product.cameraType === 'single') {
+                cameraModuleSVG = `
+                    <g transform="translate(26, 26)">
+                        <circle cx="16" cy="16" r="13" fill="#121215" stroke="${frameHex}" stroke-width="2.5"/>
+                        <circle cx="16" cy="16" r="7" fill="#090c14"/>
+                        <circle cx="13.5" cy="13.5" r="2.2" fill="#38bdf8" opacity="0.65"/>
+                        <circle cx="16" cy="39" r="4.5" fill="#fef3c7" stroke="#52525b" stroke-width="1"/>
+                    </g>
+                `;
+            } else if (product.cameraType === 'dual-vertical') {
+                cameraModuleSVG = `
+                    <g transform="translate(22, 22)">
+                        <rect x="0" y="0" width="54" height="58" rx="16" fill="rgba(0,0,0,0.22)" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
+                        <circle cx="20" cy="17" r="11" fill="#111114" stroke="${frameHex}" stroke-width="2"/>
+                        <circle cx="20" cy="17" r="5.5" fill="#070b14"/>
+                        <circle cx="18" cy="15" r="2" fill="#60a5fa" opacity="0.7"/>
+                        <circle cx="20" cy="42" r="11" fill="#111114" stroke="${frameHex}" stroke-width="2"/>
+                        <circle cx="20" cy="42" r="5.5" fill="#070b14"/>
+                        <circle cx="18" cy="40" r="2" fill="#60a5fa" opacity="0.7"/>
+                        <circle cx="42" cy="18" r="4" fill="#fef08a"/>
+                        <circle cx="42" cy="41" r="2.2" fill="#18181b"/>
+                    </g>
+                `;
+            } else if (product.cameraType === 'dual-diagonal') {
+                cameraModuleSVG = `
+                    <g transform="translate(22, 22)">
+                        <rect x="0" y="0" width="58" height="58" rx="17" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+                        <circle cx="18" cy="18" r="11.5" fill="#111114" stroke="${frameHex}" stroke-width="2"/>
+                        <circle cx="18" cy="18" r="6" fill="#080c17"/>
+                        <circle cx="16" cy="16" r="2.2" fill="#38bdf8" opacity="0.75"/>
+                        <circle cx="40" cy="40" r="11.5" fill="#111114" stroke="${frameHex}" stroke-width="2"/>
+                        <circle cx="40" cy="40" r="6" fill="#080c17"/>
+                        <circle cx="38" cy="38" r="2.2" fill="#38bdf8" opacity="0.75"/>
+                        <circle cx="41" cy="16" r="4" fill="#fef08a"/>
+                        <circle cx="17" cy="42" r="2" fill="#18181b"/>
+                    </g>
+                `;
+            } else {
+                cameraModuleSVG = `
+                    <g transform="translate(20, 20)">
+                        <rect x="0" y="0" width="66" height="68" rx="19" fill="rgba(0,0,0,0.26)" stroke="rgba(255,255,255,0.22)" stroke-width="1.3"/>
+                        <circle cx="19" cy="19" r="12.5" fill="#101013" stroke="${frameHex}" stroke-width="2.2"/>
+                        <circle cx="19" cy="19" r="6.8" fill="#060913"/>
+                        <circle cx="16.5" cy="16.5" r="2.4" fill="#38bdf8" opacity="0.75"/>
+                        <circle cx="19" cy="49" r="12.5" fill="#101013" stroke="${frameHex}" stroke-width="2.2"/>
+                        <circle cx="19" cy="49" r="6.8" fill="#060913"/>
+                        <circle cx="16.5" cy="46.5" r="2.4" fill="#38bdf8" opacity="0.75"/>
+                        <circle cx="47" cy="34" r="12.5" fill="#101013" stroke="${frameHex}" stroke-width="2.2"/>
+                        <circle cx="47" cy="34" r="6.8" fill="#060913"/>
+                        <circle cx="44.5" cy="31.5" r="2.4" fill="#38bdf8" opacity="0.75"/>
+                        <circle cx="47" cy="13" r="4.2" fill="#fef08a"/>
+                        <circle cx="47" cy="55" r="4.8" fill="#18181b" stroke="#3f3f46" stroke-width="1"/>
+                    </g>
+                `;
+            }
+
+            return `
+                <svg viewBox="0 0 180 340" class="w-full h-auto drop-shadow-[0_20px_28px_rgba(0,0,0,0.65)]" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad-${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${bodyHex}" stop-opacity="1"/>
+                            <stop offset="55%" stop-color="${bodyHex}" stop-opacity="0.92"/>
+                            <stop offset="100%" stop-color="${frameHex}" stop-opacity="1"/>
+                        </linearGradient>
+                        <linearGradient id="sheen-${uid}" x1="0%" y1="0%" x2="100%" y2="85%">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                            <stop offset="45%" stop-color="#ffffff" stop-opacity="0.03"/>
+                            <stop offset="100%" stop-color="#000000" stop-opacity="0.22"/>
+                        </linearGradient>
+                    </defs>
+
+                    <rect x="6" y="75" width="3" height="22" rx="1.5" fill="${frameHex}"/>
+                    <rect x="6" y="108" width="3" height="32" rx="1.5" fill="${frameHex}"/>
+                    <rect x="6" y="148" width="3" height="32" rx="1.5" fill="${frameHex}"/>
+                    <rect x="171" y="112" width="3" height="44" rx="1.5" fill="${frameHex}"/>
+
+                    <rect x="9" y="8" width="162" height="324" rx="34" fill="${frameHex}"/>
+                    <rect x="13" y="12" width="154" height="316" rx="30" fill="url(#grad-${uid})"/>
+                    <rect x="13" y="12" width="154" height="316" rx="30" fill="url(#sheen-${uid})"/>
+
+                    <g transform="translate(77, 152) scale(1.1)" opacity="${isPro ? '0.28' : '0.35'}">
+                        <path fill="#ffffff" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.32c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.72-1.3"/>
+                    </g>
+
+                    ${cameraModuleSVG}
+                </svg>
+            `;
+        }
+
+        // Actualización de contadores globales de inventario
+        function updateGlobalInventoryCounters() {
+            const totalUnits = catalog.reduce((acc, item) => acc + item.stock, 0);
+            const activeModels = catalog.filter(item => item.stock > 0).length;
+
+            const topCounter = document.getElementById('global-stock-counter');
+            const statUnits = document.getElementById('stat-total-units');
+            const statModels = document.getElementById('stat-models-count');
+            const availBtn = document.getElementById('available-filter-btn');
+
+            if (topCounter) {
+                topCounter.textContent = `${totalUnits} ${totalUnits === 1 ? 'iPhone disponible' : 'iPhones disponibles'} en inventario físico listo para entrega`;
+                topCounter.classList.add('scale-105');
+                setTimeout(() => topCounter.classList.remove('scale-105'), 250);
+            }
+            if (statUnits) statUnits.textContent = totalUnits;
+            if (statModels) statModels.textContent = `${activeModels}/${catalog.length}`;
+            if (availBtn) availBtn.textContent = `Disponibles (${activeModels})`;
+        }
+
+        // Renderizado principal de la cuadrícula de productos
+        function renderCatalog() {
+            const grid = document.getElementById('products-grid');
+            const emptyState = document.getElementById('empty-state');
+            if (!grid) return;
+
+            const filtered = catalog.filter(item => {
+                const matchSeries = activeSeries === 'all'
+                    || (activeSeries === 'available' && item.stock > 0)
+                    || item.series === activeSeries;
+                const matchCondition = activeCondition === 'all' || item.condition === activeCondition;
+                const query = searchQuery.trim().toLowerCase();
+                const matchSearch = !query
+                    || item.name.toLowerCase().includes(query)
+                    || item.chip.toLowerCase().includes(query)
+                    || item.colors.some(c => c.name.toLowerCase().includes(query));
+                return matchSeries && matchCondition && matchSearch;
+            });
+
+            // Mostrar disponibles primero y luego los agotados
+            const pr = p => p.basePrice + (p.storages[p.defaultStorageIndex || 0] || p.storages[0]).extra;
+            filtered.sort((a, b) => sortMode === 'asc' ? pr(a) - pr(b) : sortMode === 'desc' ? pr(b) - pr(a) : b.stock - a.stock);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                if (emptyState) emptyState.classList.remove('hidden');
+                return;
+            }
+
+            if (emptyState) emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map((product, index) => {
+                const isOut = product.stock === 0;
+                const isLastOne = product.stock === 1;
+                const defaultStorageIdx = product.defaultStorageIndex || 0;
+                const displayStorage = product.storages[defaultStorageIdx] || product.storages[0];
+                const displayPrice = product.basePrice + displayStorage.extra;
+
+                let stockBadgeHTML = '';
+                if (isOut) {
+                    stockBadgeHTML = `
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-zinc-800/90 text-zinc-400 border border-white/10">
+                            <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span> Agotado
+                        </span>`;
+                } else if (isLastOne) {
+                    stockBadgeHTML = `
+                        <span class="badge-urgent inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-appleRed/20 text-appleRed border border-appleRed/40">
+                            <span class="w-1.5 h-1.5 rounded-full bg-appleRed"></span> ¡Última unidad!
+                        </span>`;
+                } else {
+                    stockBadgeHTML = `
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-appleGreen/15 text-appleGreen border border-appleGreen/30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-appleGreen"></span> Quedan ${product.stock}
+                        </span>`;
+                }
+
+                const adminControlsHTML = adminMode ? `
+                    <div class="mt-3" onclick="event.stopPropagation()"><button type="button" onclick="openEditor('${product.id}')" class="w-full py-2 rounded-lg bg-appleBlue/20 border border-appleBlue/50 text-[11px] font-bold text-white hover:bg-appleBlue/30">✏️ Editar equipo completo</button></div>
+                    <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
+                        <span class="text-[11px] text-zinc-400 font-medium">Precio (RD$):</span>
+                        <input type="number" min="0" step="100" value="${displayPrice}" onchange="setPrice('${product.id}', this.value)" class="w-28 bg-zinc-900 border border-white/15 rounded-lg px-2 py-1 text-xs text-white text-right outline-none focus:border-appleBlue">
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between" onclick="event.stopPropagation()">
+                        <span class="text-[11px] text-zinc-400 font-medium">Stock físico:</span>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="adjustStock('${product.id}', -1)" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-appleRed/30 text-white font-bold flex items-center justify-center transition-colors">-</button>
+                            <span class="text-xs font-bold text-white w-5 text-center">${product.stock}</span>
+                            <button type="button" onclick="adjustStock('${product.id}', 1)" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-appleGreen/30 text-white font-bold flex items-center justify-center transition-colors">+</button>
+                        </div>
+                    </div>
+                ` : '';
+
+                const colorDotsHTML = product.colors.map(c => {
+                    const locked = isColorLocked(product, c);
+                    return `<span class="relative w-3.5 h-3.5 rounded-full border border-white/35 shadow-sm ${locked ? 'opacity-30' : ''}" style="background-color: ${c.hex};" title="${c.name}${locked ? ' (No disponible)' : ''}">${locked ? '<span class="absolute inset-0 flex items-center justify-center"><span class="block w-[130%] h-px bg-white/80 rotate-45"></span></span>' : ''}</span>`;
+                }).join('');
+
+                return `
+                    <article 
+                        onclick="openProductModal('${product.id}')"
+                        style="animation-delay: ${Math.min(index * 40, 320)}ms"
+                        class="iphone-card cursor-pointer p-5 flex flex-col justify-between group ${isOut ? 'opacity-75' : 'ring-1 ring-appleGreen/30'}"
+                        onmousemove="handleCardTilt(event, this)"
+                        onmouseleave="resetCardTilt(this)">
+                        
+                        <div class="spotlight-overlay"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md ${isOut ? 'bg-white/5 text-zinc-400' : 'bg-appleBlue/20 text-appleBlue border border-appleBlue/30'}">
+                                    ${displayStorage.size} • Bat. ${product.batteryHealth.split(' ')[0]}
+                                </span>
+                                ${stockBadgeHTML}
+                            </div>
+
+                            <div class="phone-render-wrapper w-32 mx-auto my-3">
+                                ${generatePhoneSVG(product, product.colors[0])}
+                            </div>
+
+                            <div class="flex items-center justify-center gap-2 mt-3 mb-4">
+                                ${colorDotsHTML}
+                            </div>
+
+                            <div class="text-center">
+                                <h3 class="text-lg font-bold text-white group-hover:text-appleBlue transition-colors">${product.name}</h3>
+                                <p class="text-xs text-zinc-400 mt-0.5 line-clamp-1">${product.extraNote || product.chip}</p>
+                            </div>
+                        </div>
+
+                        <div class="relative z-10 mt-5 pt-4 border-t border-white/10">
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <span class="text-[11px] text-zinc-400 block">${isOut ? 'Precio referencia' : 'Precio disponible'}</span>
+                                    <span class="text-xl font-extrabold text-white tracking-tight">${formatDOP(displayPrice)}</span>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold text-appleBlue group-hover:translate-x-1 transition-transform">
+                                    Ver detalles
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                                </span>
+                            </div>
+                            <button type="button" onclick="event.stopPropagation(); toggleCompare('${product.id}')" class="mt-3 w-full text-[11px] font-semibold py-1.5 rounded-lg border transition-colors ${compareList.includes(product.id) ? 'bg-appleBlue/20 border-appleBlue text-white' : 'border-white/10 text-zinc-400 hover:text-white'}">${compareList.includes(product.id) ? '✓ En el comparador' : '+ Comparar'}</button>
+                            ${adminControlsHTML}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // Efecto 3D Tilt & Spotlight
+        function handleCardTilt(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -6;
+            const rotateY = ((x - centerX) / centerX) * 6;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        }
+
+        function resetCardTilt(card) {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+        }
+
+        // Modal interactivo de producto
+        function openProductModal(productId) {
+            const product = catalog.find(p => p.id === productId);
+            if (!product) return;
+
+            currentModalProduct = product;
+            const firstColor = product.colors.findIndex(c => !isColorLocked(product, c));
+            selectedColorIndex = firstColor >= 0 ? firstColor : 0;
+            selectedStorageIndex = product.defaultStorageIndex || 0;
+            if (isStorageLocked(product, product.storages[selectedStorageIndex])) {
+                const fs = product.storages.findIndex(s => !isStorageLocked(product, s));
+                selectedStorageIndex = fs >= 0 ? fs : 0;
+            }
+
+            updateModalUI();
+
+            const modal = document.getElementById('product-modal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function selectModalColor(index) {
+            if (isColorLocked(currentModalProduct, currentModalProduct.colors[index])) return;
+            selectedColorIndex = index;
+            updateModalUI();
+        }
+
+        function selectModalStorage(index) {
+            if (isStorageLocked(currentModalProduct, currentModalProduct.storages[index])) return;
+            selectedStorageIndex = index;
+            updateModalUI();
+        }
+
+        function buildWhatsAppURL(product, colorObj, storageObj, finalPrice) {
+            const isOut = product.stock === 0;
+            const message = isOut
+                ? `¡Hola *Brotehers iPhone*! Vi el *${product.name}* (${colorObj.name}, ${storageObj.size}) en su catálogo web. ¿Cuándo vuelven a tener unidades disponibles?`
+                : `¡Hola *Brotehers iPhone*! Quiero comprar este equipo disponible en su página web:\n\n` +
+                  `📱 *Modelo:* ${product.name}\n` +
+                  `🎨 *Color:* ${colorObj.name}\n` +
+                  `💾 *Capacidad:* ${storageObj.size}\n` +
+                  `🔋 *Salud de Batería:* ${product.batteryHealth}\n` +
+                  `📶 *Conectividad:* ${product.simInfo}\n` +
+                  `💰 *Precio:* ${formatDOP(finalPrice)}\n\n` +
+                  `¿Lo tienen listo para coordinar la entrega?`;
+
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        }
+
+        function updateModalUI() {
+            const p = currentModalProduct;
+            if (!p) return;
+
+            const activeColor = p.colors[selectedColorIndex] || p.colors[0];
+            const activeStorage = p.storages[selectedStorageIndex] || p.storages[0];
+            const finalPrice = p.basePrice + activeStorage.extra;
+
+            document.getElementById('modal-series-tag').textContent = p.seriesLabel;
+            document.getElementById('modal-title').textContent = p.name;
+            document.getElementById('modal-price').textContent = formatDOP(finalPrice);
+            document.getElementById('modal-condition-badge').textContent = p.condition;
+            
+            document.getElementById('spec-chip').textContent = p.chip;
+            document.getElementById('spec-display').textContent = p.display;
+            document.getElementById('spec-camera').textContent = p.camera;
+            document.getElementById('spec-battery').textContent = p.batteryHealth;
+            document.getElementById('spec-sim').textContent = p.simInfo;
+
+            const stockBadge = document.getElementById('modal-stock-badge');
+                                    const waBtn = document.getElementById('modal-whatsapp-btn');
+            const waText = document.getElementById('modal-wa-text');
+
+            if (p.stock === 0) {
+                stockBadge.textContent = 'Agotado temporalmente';
+                stockBadge.className = 'text-xs font-semibold text-appleRed';
+                waText.textContent = 'Consultar Disponibilidad';
+            } else if (p.stock === 1) {
+                stockBadge.textContent = '¡Última unidad disponible!';
+                stockBadge.className = 'text-xs font-bold text-appleOrange';
+                waText.textContent = 'Pedir por WhatsApp';
+            } else {
+                stockBadge.textContent = `Disponibles: ${p.stock} unidades`;
+                stockBadge.className = 'text-xs font-semibold text-appleGreen';
+                waText.textContent = 'Pedir por WhatsApp';
+            }
+
+            waBtn.href = buildWhatsAppURL(p, activeColor, activeStorage, finalPrice);
+
+            document.getElementById('modal-phone-preview').innerHTML = generatePhoneSVG(p, activeColor);
+            document.getElementById('modal-selected-color-name').textContent = activeColor.name;
+
+            document.getElementById('modal-color-swatches').innerHTML = p.colors.map((c, idx) => {
+                const locked = isColorLocked(p, c);
+                return `
+                <button 
+                    type="button"
+                    ${locked ? 'disabled aria-disabled="true"' : ''}
+                    onclick="selectModalColor(${idx})"
+                    title="${c.name}${locked ? ' — No disponible' : ''}"
+                    class="relative w-8 h-8 rounded-full transition-all flex items-center justify-center overflow-hidden ${locked ? 'opacity-35 cursor-not-allowed' : (idx === selectedColorIndex ? 'ring-2 ring-appleBlue ring-offset-2 ring-offset-[#121217] scale-110' : 'opacity-75 hover:opacity-100')}"
+                    style="background-color: ${c.hex}; border: 1px solid rgba(255,255,255,0.35);">
+                    ${locked ? '<span class="absolute block w-[140%] h-0.5 bg-appleRed rotate-45"></span>' : ''}
+                </button>
+            `;}).join('');
+
+            const lockedColorCount = p.colors.filter(c => isColorLocked(p, c)).length;
+            const lockedNote = document.getElementById('modal-locked-note');
+            if (lockedNote) {
+                lockedNote.textContent = lockedColorCount ? 'Los colores y capacidades tachados no están disponibles en esta unidad.' : '';
+                lockedNote.classList.toggle('hidden', !lockedColorCount);
+            }
+
+            document.getElementById('modal-storage-options').innerHTML = p.storages.map((s, idx) => {
+                const locked = isStorageLocked(p, s);
+                return `
+                <button 
+                    type="button"
+                    ${locked ? 'disabled aria-disabled="true"' : ''}
+                    onclick="selectModalStorage(${idx})"
+                    class="py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all ${locked
+                        ? 'bg-white/[0.02] border-white/5 text-zinc-600 line-through cursor-not-allowed'
+                        : (idx === selectedStorageIndex 
+                            ? 'bg-appleBlue/15 border-appleBlue text-white shadow-sm' 
+                            : 'bg-white/[0.03] border-white/10 text-zinc-400 hover:border-white/25 hover:text-white')}">
+                    ${s.size}
+                </button>
+            `;}).join('');
+        }
+
+        // Acción "Comprar Ahora": descuenta stock en vivo y abre WhatsApp con el pedido
+        function handleBuyNow() {
+            if (!currentModalProduct || currentModalProduct.stock <= 0) return;
+
+            const activeColor = currentModalProduct.colors[selectedColorIndex] || currentModalProduct.colors[0];
+            const activeStorage = currentModalProduct.storages[selectedStorageIndex] || currentModalProduct.storages[0];
+            const finalPrice = currentModalProduct.basePrice + activeStorage.extra;
+            const waURL = buildWhatsAppURL(currentModalProduct, activeColor, activeStorage, finalPrice);
+
+            currentModalProduct.stock = Math.max(0, currentModalProduct.stock - 1);
+            saveCatalogStocks();
+            updateGlobalInventoryCounters();
+            renderCatalog();
+            updateModalUI();
+
+            const toast = document.getElementById('purchase-toast');
+            const toastMsg = document.getElementById('toast-message');
+            if (toast && toastMsg) {
+                toastMsg.textContent = `Reservaste ${currentModalProduct.name} (${activeColor.name}, ${activeStorage.size}). Abriendo WhatsApp...`;
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 4000);
+            }
+
+            window.open(waURL, '_blank', 'noopener,noreferrer');
+        }
+
+        // Modo Gestión de Stock (+ / -)
+        function toggleAdminMode() {
+            adminMode = !adminMode;
+            const banner = document.getElementById('admin-banner');
+            const btnText = document.getElementById('admin-btn-text');
+            const btn = document.getElementById('toggle-admin-btn');
+
+            if (adminMode) {
+                if (banner) banner.classList.remove('hidden');
+                if (btnText) btnText.textContent = 'Cerrar Gestión';
+                if (btn) btn.classList.add('border-appleBlue', 'text-white', 'bg-appleBlue/20');
+            } else {
+                if (banner) banner.classList.add('hidden');
+                if (btnText) btnText.textContent = 'Gestionar Stock';
+                if (btn) btn.classList.remove('border-appleBlue', 'text-white', 'bg-appleBlue/20');
+            }
+            renderCatalog();
+        }
+
+        function adjustStock(productId, delta) {
+            const item = catalog.find(p => p.id === productId);
+            if (!item) return;
+            item.stock = Math.max(0, item.stock + delta);
+            saveCatalogStocks();
+            updateGlobalInventoryCounters();
+            renderCatalog();
+        }
+
+        function resetAllStock() {
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+            } catch (e) {}
+            catalog = JSON.parse(JSON.stringify(initialCatalog));
+            updateGlobalInventoryCounters();
+            renderCatalog();
+        }
+
+        function resetFilters() {
+            activeSeries = 'all';
+            activeCondition = 'all';
+            searchQuery = '';
+            const searchEl = document.getElementById('search-input');
+            const condEl = document.getElementById('condition-filter');
+            if (searchEl) searchEl.value = '';
+            if (condEl) condEl.value = 'all';
+
+            document.querySelectorAll('.series-btn').forEach((b, idx) => {
+                if (idx === 0) {
+                    b.classList.add('bg-white', 'text-black', 'font-semibold');
+                    b.classList.remove('bg-white/5', 'text-zinc-300');
+                } else if (b.dataset.series === 'available') {
+                    b.classList.remove('bg-white', 'text-black', 'font-semibold');
+                    b.classList.add('bg-appleGreen/15', 'text-appleGreen', 'font-medium');
+                } else {
+                    b.classList.remove('bg-white', 'text-black', 'font-semibold');
+                    b.classList.add('bg-white/5', 'text-zinc-300', 'font-medium');
+                }
+            });
+            renderCatalog();
+        }
+
+        // Inicialización segura
+        function initApp() {
+            const modal = document.getElementById('product-modal');
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target.id === 'product-modal') closeProductModal();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeProductModal();
+            });
+
+            document.querySelectorAll('.series-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.series-btn').forEach(b => {
+                        b.classList.remove('bg-white', 'text-black', 'font-semibold');
+                        if (b.dataset.series === 'available') {
+                            b.classList.add('bg-appleGreen/15', 'text-appleGreen', 'font-medium');
+                        } else {
+                            b.classList.add('bg-white/5', 'text-zinc-300', 'font-medium');
+                        }
+                    });
+                    btn.classList.remove('bg-white/5', 'text-zinc-300', 'bg-appleGreen/15', 'text-appleGreen', 'font-medium');
+                    btn.classList.add('bg-white', 'text-black', 'font-semibold');
+
+                    activeSeries = btn.dataset.series;
+                    renderCatalog();
+                });
+            });
+
+            const conditionEl = document.getElementById('condition-filter');
+            if (conditionEl) {
+                conditionEl.addEventListener('change', (e) => {
+                    activeCondition = e.target.value;
+                    renderCatalog();
+                });
+            }
+
+            const searchEl = document.getElementById('search-input');
+            if (searchEl) {
+                searchEl.addEventListener('input', (e) => {
+                    searchQuery = e.target.value;
+                    renderCatalog();
+                });
+            }
+
+            updateGlobalInventoryCounters();
+            renderCatalog();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+
+<script>
+    // ===== CONFIGURACIÓN (edita aquí) =====
+    const SHEET_CSV_URL = '';  // (No funciona en la página publicada; los cambios se comparten con 'Publicar cambios para todos')   // Pega aquí el enlace CSV publicado de tu Google Sheet (columnas: id,stock). Vacío = desactivado.
+    const OFFERS = ['🔥 Ofertas de la semana: pregunta por descuento en pago de contado', '🛡️ Garantía de 30 días en todos los equipos', '♻️ Entrega tu iPhone actual y recibe descuento', '🚚 Entregas en Santo Domingo, coordinadas por WhatsApp'];
+    const MAP_QUERY = 'Los Alcarrizos, Santo Domingo, República Dominicana';
+    const ZONES = ['Los Alcarrizos (nuestra ubicación)', 'Santo Domingo (entregas solamente aquí)'];
+    const FAQ = [
+        ['¿Qué garantía tienen los equipos?', 'Todos incluyen 30 días de garantía por fallas de funcionamiento.'],
+        ['¿Los equipos vienen libres?', 'Sí, son libres de fábrica y funcionan con cualquier compañía.'],
+        ['¿Cómo puedo pagar?', 'Coordinamos el método de pago directamente por WhatsApp.'],
+        ['¿Hacen envíos?', 'Estamos en Los Alcarrizos y hacemos entregas solamente en Santo Domingo, coordinadas por WhatsApp.'],
+        ['¿La batería es original?', 'Mostramos el porcentaje real de salud de batería de cada equipo.']
+    ];
+    // Testimonios reales: agrega objetos {name, text}. Los de ejemplo solo se ven en modo "Gestionar Stock".
+    const TESTIMONIALS = [
+        { name: 'Nombre del cliente', text: 'Escribe aquí un testimonio real de un cliente.', example: true },
+        { name: 'Nombre del cliente', text: 'Escribe aquí otro testimonio real.', example: true },
+        { name: 'Nombre del cliente', text: 'Escribe aquí otro testimonio real.', example: true }
+    ];
+    const TRADE_KEY = 'brotehers_notify_v1';
+
+    let sortMode = 'stock';
+    let compareList = [];
+
+    // Envolver funciones existentes
+    const _render = renderCatalog;
+    renderCatalog = function () { _render(); updateCompareBar(); };
+    const _modalUI = updateModalUI;
+    updateModalUI = function () { _modalUI(); renderNotify(); };
+    const _admin = toggleAdminMode;
+    toggleAdminMode = function () { _admin(); renderTestimonials(); };
+
+    function toggleCompare(id) {
+        if (compareList.includes(id)) compareList = compareList.filter(x => x !== id);
+        else if (compareList.length < 3) compareList.push(id);
+        else alert('Puedes comparar hasta 3 equipos.');
+        renderCatalog();
+    }
+    function updateCompareBar() {
+        const bar = document.getElementById('compare-bar');
+        bar.classList.toggle('hidden', compareList.length === 0);
+        document.getElementById('compare-count').textContent = compareList.length + ' seleccionado(s)';
+    }
+    function openCompare() {
+        if (compareList.length < 2) { alert('Elige al menos 2 equipos.'); return; }
+        const items = compareList.map(id => catalog.find(p => p.id === id));
+        const price = p => p.basePrice + (p.storages[p.defaultStorageIndex || 0] || p.storages[0]).extra;
+        const rows = [
+            ['Precio', p => formatDOP(price(p))], ['Capacidad', p => (p.storages[p.defaultStorageIndex || 0] || p.storages[0]).size],
+            ['Batería', p => p.batteryHealth], ['Procesador', p => p.chip], ['Pantalla', p => p.display],
+            ['Cámara', p => p.camera], ['Conectividad', p => p.simInfo], ['Condición', p => p.condition],
+            ['Disponibilidad', p => p.stock > 0 ? '✅ Disponible' : 'Agotado']
+        ];
+        document.getElementById('compare-table').innerHTML =
+            '<tr><th class="p-2"></th>' + items.map(p => `<th class="p-2 text-white text-sm">${p.name}</th>`).join('') + '</tr>' +
+            rows.map(r => `<tr class="border-t border-white/10"><td class="p-2 text-zinc-400 whitespace-nowrap">${r[0]}</td>${items.map(p => `<td class="p-2 text-white">${r[1](p)}</td>`).join('')}</tr>`).join('');
+        document.getElementById('compare-modal').classList.remove('hidden');
+    }
+    function closeCompare() { document.getElementById('compare-modal').classList.add('hidden'); }
+
+    function renderNotify() {
+        const p = currentModalProduct, box = document.getElementById('modal-notify');
+        if (box && p) box.classList.toggle('hidden', p.stock > 0);
+    }
+    function submitNotify() {
+        const phone = document.getElementById('notify-phone').value.replace(/[^\d+]/g, '');
+        const msg = document.getElementById('notify-msg');
+        if (phone.replace(/\D/g, '').length < 10) { msg.textContent = 'Escribe un número válido con código de área.'; return; }
+        try {
+            const list = JSON.parse(localStorage.getItem(TRADE_KEY) || '[]');
+            list.push({ id: currentModalProduct.id, phone, date: new Date().toISOString() });
+            localStorage.setItem(TRADE_KEY, JSON.stringify(list));
+        } catch (e) {}
+        const text = `¡Hola *Brotehers iPhone*! Avísenme cuando llegue el *${currentModalProduct.name}*. Mi número: ${phone}`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+        msg.textContent = '¡Listo! Te avisaremos por WhatsApp.';
+    }
+
+    function renderTestimonials() {
+        const list = TESTIMONIALS.filter(t => !t.example || adminMode);
+        document.getElementById('testimonials-section').classList.toggle('hidden', list.length === 0);
+        document.getElementById('testimonials-grid').innerHTML = list.map(t => `
+            <div class="glass-panel rounded-2xl p-5"><p class="text-appleOrange text-sm">★★★★★</p>
+            <p class="text-sm text-zinc-300 my-3">“${t.text}”</p>
+            <p class="text-xs font-bold text-white">${t.name}${t.example ? ' <span class="text-appleRed">(ejemplo, reemplazar)</span>' : ''}</p></div>`).join('');
+    }
+
+    function calcTrade() {
+        const m = catalog.find(p => p.id === document.getElementById('trade-model').value);
+        const f = parseFloat(document.getElementById('trade-cond').value);
+        const est = Math.round(m.basePrice * f / 100) * 100;
+        document.getElementById('trade-result').textContent = formatDOP(est);
+        const cond = document.getElementById('trade-cond').selectedOptions[0].text;
+        const text = `¡Hola *Brotehers iPhone*! Quiero entregar mi *${m.name}* (${cond}) como parte de pago. Estimado de la web: ${formatDOP(est)}. ¿Me ayudan a cotizarlo?`;
+        document.getElementById('trade-wa').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
+    async function loadSheetStock() {
+        if (!SHEET_CSV_URL) return;
+        try {
+            const txt = await (await fetch(SHEET_CSV_URL)).text();
+            txt.split(/\r?\n/).slice(1).forEach(line => {
+                const [id, st] = line.split(',').map(x => x.trim());
+                const item = catalog.find(p => p.id === id);
+                if (item && !isNaN(parseInt(st))) item.stock = Math.max(0, parseInt(st));
+            });
+            updateGlobalInventoryCounters(); renderCatalog();
+        } catch (e) { console.warn('No se pudo leer la hoja de Google Sheets.'); }
+    }
+
+    const PRICE_KEY = 'brotehers_iphone_prices_v1';
+    function setPrice(id, value) {
+        const p = catalog.find(x => x.id === id), v = parseInt(value);
+        if (!p || isNaN(v) || v < 0) return;
+        const st = p.storages[p.defaultStorageIndex || 0] || p.storages[0];
+        p.basePrice = Math.max(0, v - st.extra);
+        try {
+            const map = JSON.parse(localStorage.getItem(PRICE_KEY) || '{}');
+            map[id] = p.basePrice;
+            localStorage.setItem(PRICE_KEY, JSON.stringify(map));
+        } catch (e) {}
+        renderCatalog(); calcTrade();
+        if (currentModalProduct && currentModalProduct.id === id) updateModalUI();
+    }
+    function loadSavedPrices() {
+        if (localStorage.getItem('brotehers_iphone_catalog_v2')) return;
+        try {
+            const map = JSON.parse(localStorage.getItem(PRICE_KEY) || '{}');
+            catalog.forEach(p => { if (typeof map[p.id] === 'number') p.basePrice = map[p.id]; });
+        } catch (e) {}
+    }
+
+    function initExtras() {
+        loadSavedPrices(); renderCatalog();
+        const strip = OFFERS.map(o => `<span class="mx-8 whitespace-nowrap">${o}</span>`).join('');
+        document.getElementById('offers-marquee').innerHTML = strip + strip;
+        document.getElementById('faq-list').innerHTML = FAQ.map(f => `<details class="glass-panel rounded-2xl p-4 group"><summary class="cursor-pointer text-sm font-semibold text-white">${f[0]}</summary><p class="text-sm text-zinc-400 mt-2">${f[1]}</p></details>`).join('');
+        document.getElementById('zones-list').innerHTML = ZONES.map(z => `<li>📍 ${z}</li>`).join('');
+        document.getElementById('map-link').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(MAP_QUERY);
+        document.getElementById('floating-wa').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Brotehers iPhone! Tengo una consulta.')}`;
+        document.getElementById('trade-model').innerHTML = [...catalog].sort((a, b) => a.basePrice - b.basePrice).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        calcTrade(); renderTestimonials(); loadSheetStock();
+    }
+    document.addEventListener('DOMContentLoaded', () => initExtras());
+</script>
+
+<script>
+    // ===== EDITOR COMPLETO DE EQUIPOS =====
+    const CATALOG_KEY = 'brotehers_iphone_catalog_v2';
+    let editing = null;
+    const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    const CAMERAS = { 'single': '1 cámara', 'dual-vertical': '2 cámaras (vertical)', 'dual-diagonal': '2 cámaras (diagonal)', 'triple-pro': '3 cámaras (Pro)' };
+    const SERIES = { 'xr-11': 'XR / XS / 11', '12': 'Serie 12', '13': 'Serie 13', '14': 'Serie 14', '15': 'Serie 15', '16': 'Serie 16' };
+
+    function saveFullCatalog() { try { localStorage.setItem(CATALOG_KEY, JSON.stringify(catalog)); } catch (e) {} }
+    function loadFullCatalog() {
+        try {
+            const raw = localStorage.getItem(CATALOG_KEY);
+            if (!raw) return false;
+            const saved = JSON.parse(raw);
+            if (!Array.isArray(saved) || !saved.length) return false;
+            catalog.length = 0; saved.forEach(p => catalog.push(p));
+            return true;
+        } catch (e) { return false; }
+    }
+    function refreshTrade() {
+        const sel = document.getElementById('trade-model');
+        sel.innerHTML = [...catalog].sort((a, b) => a.basePrice - b.basePrice).map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('');
+        if (catalog.length) calcTrade();
+    }
+    function afterCatalogChange() { saveFullCatalog(); updateGlobalInventoryCounters(); refreshTrade(); renderCatalog(); }
+
+    const _save = saveCatalogStocks;
+    saveCatalogStocks = function () { _save(); saveFullCatalog(); };
+    const _admin2 = toggleAdminMode;
+    toggleAdminMode = function () { _admin2(); document.getElementById('admin-tools').classList.toggle('hidden', !adminMode); };
+
+    function openEditor(id) {
+        const p = catalog.find(x => x.id === id); if (!p) return;
+        editing = JSON.parse(JSON.stringify(p));
+        renderEditor();
+        document.getElementById('editor-modal').classList.remove('hidden');
+    }
+    function closeEditor() { document.getElementById('editor-modal').classList.add('hidden'); editing = null; }
+
+    function fld(label, key, type = 'text') {
+        return `<label class="block text-[11px] text-zinc-400">${label}<input data-f="${key}" type="${type}" value="${esc(editing[key])}" class="mt-1 w-full bg-zinc-900 border border-white/10 rounded-lg px-2.5 py-2 text-xs text-white outline-none focus:border-appleBlue"></label>`;
+    }
+    function sel(label, key, opts) {
+        return `<label class="block text-[11px] text-zinc-400">${label}<select data-f="${key}" class="mt-1 w-full bg-zinc-900 border border-white/10 rounded-lg px-2.5 py-2 text-xs text-white outline-none">${Object.entries(opts).map(([k, v]) => `<option value="${esc(k)}" ${editing[key] === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>`;
+    }
+    function renderEditor() {
+        const e = editing, inp = 'bg-zinc-900 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white outline-none';
+        document.getElementById('editor-body').innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${fld('Nombre', 'name')}${fld('Etiqueta de serie', 'seriesLabel')}
+            ${sel('Filtro de serie', 'series', SERIES)}${sel('Cámaras (dibujo)', 'cameraType', CAMERAS)}
+            ${fld('Condición (ej. Seminuevo Certificado)', 'condition')}${fld('Salud de batería (ej. 84% (Original))', 'batteryHealth')}
+            ${fld('Conectividad / SIM', 'simInfo')}${fld('Nota en tarjeta (ej. 128GB • Negro • Batería 84%)', 'extraNote')}
+            ${fld('Procesador', 'chip')}${fld('Pantalla', 'display')}
+            ${fld('Cámara', 'camera')}${fld('Stock (unidades)', 'stock', 'number')}
+            ${fld('Precio base (RD$)', 'basePrice', 'number')}
+        </div>
+        <h4 class="text-sm font-bold text-white mt-5 mb-2">Capacidades <span class="text-zinc-500 font-normal text-[11px]">(precio = base + extra; "Restringida" = no se puede elegir si hay stock)</span></h4>
+        ${e.storages.map((st, i) => `<div class="flex flex-wrap items-center gap-2 mb-2">
+            <input data-s="${i}:size" value="${esc(st.size)}" placeholder="128GB" class="${inp} w-24">
+            <span class="text-[11px] text-zinc-500">+RD$</span><input data-s="${i}:extra" type="number" value="${st.extra}" class="${inp} w-24">
+            <label class="text-[11px] text-zinc-400 flex items-center gap-1"><input type="radio" name="defstor" ${i === (e.defaultStorageIndex || 0) ? 'checked' : ''} onclick="editing.defaultStorageIndex=${i}"> Principal</label>
+            <label class="text-[11px] text-zinc-400 flex items-center gap-1"><input data-s="${i}:locked" type="checkbox" ${st.locked ? 'checked' : ''}> Restringida</label>
+            <button type="button" onclick="editRow('storages',${i})" class="text-appleRed text-xs">Quitar</button></div>`).join('')}
+        <button type="button" onclick="editAdd('storages')" class="text-xs text-appleBlue">＋ Agregar capacidad</button>
+        <h4 class="text-sm font-bold text-white mt-5 mb-2">Colores <span class="text-zinc-500 font-normal text-[11px]">(el color ★ es el que se ve en la tarjeta; ponlo en el color disponible)</span></h4>
+        ${e.colors.map((c, i) => `<div class="flex flex-wrap items-center gap-2 mb-2">
+            <input data-c="${i}:name" value="${esc(c.name)}" placeholder="Nombre del color" class="${inp} w-40">
+            <input data-c="${i}:hex" type="color" value="${esc(c.hex)}" title="Color del cuerpo" class="w-8 h-8 bg-transparent">
+            <input data-c="${i}:frame" type="color" value="${esc(c.frame)}" title="Color del borde" class="w-8 h-8 bg-transparent">
+            <label class="text-[11px] text-zinc-400 flex items-center gap-1"><input data-c="${i}:locked" type="checkbox" ${c.locked ? 'checked' : ''}> Restringido</label>
+            ${i > 0 ? `<button type="button" onclick="editMakeMain(${i})" class="text-appleOrange text-xs">★ Principal</button>` : '<span class="text-appleOrange text-xs">★ Principal</span>'}
+            <button type="button" onclick="editRow('colors',${i})" class="text-appleRed text-xs">Quitar</button></div>`).join('')}
+        <button type="button" onclick="editAdd('colors')" class="text-xs text-appleBlue">＋ Agregar color</button>`;
+    }
+    function syncEditor() {
+        const e = editing;
+        document.querySelectorAll('#editor-body [data-f]').forEach(el => { const k = el.dataset.f; e[k] = el.type === 'number' ? (parseInt(el.value) || 0) : el.value; });
+        document.querySelectorAll('#editor-body [data-s]').forEach(el => { const [i, k] = el.dataset.s.split(':'); e.storages[i][k] = k === 'locked' ? el.checked : (k === 'extra' ? (parseInt(el.value) || 0) : el.value); });
+        document.querySelectorAll('#editor-body [data-c]').forEach(el => { const [i, k] = el.dataset.c.split(':'); e.colors[i][k] = k === 'locked' ? el.checked : el.value; });
+    }
+    function editRow(list, i) {
+        syncEditor();
+        if (editing[list].length <= 1) { alert('Debe quedar al menos una opción.'); return; }
+        editing[list].splice(i, 1);
+        if (list === 'storages') editing.defaultStorageIndex = Math.min(editing.defaultStorageIndex || 0, editing.storages.length - 1);
+        renderEditor();
+    }
+    function editAdd(list) {
+        syncEditor();
+        editing[list].push(list === 'storages' ? { size: '256GB', extra: 0 } : { name: 'Nuevo color', hex: '#888888', frame: '#aaaaaa' });
+        renderEditor();
+    }
+    function editMakeMain(i) { syncEditor(); const [c] = editing.colors.splice(i, 1); editing.colors.unshift(c); renderEditor(); }
+    function saveEditor() {
+        syncEditor();
+        if (!editing.name.trim()) { alert('Escribe el nombre del equipo.'); return; }
+        editing.stock = Math.max(0, editing.stock);
+        const i = catalog.findIndex(p => p.id === editing.id);
+        if (i >= 0) catalog[i] = editing; else catalog.push(editing);
+        closeEditor(); afterCatalogChange();
+    }
+    function deletePhone() {
+        if (!editing || !confirm('¿Eliminar este equipo del catálogo?')) return;
+        const id = editing.id; const i = catalog.findIndex(p => p.id === id);
+        if (i >= 0) catalog.splice(i, 1);
+        compareList = compareList.filter(x => x !== id);
+        closeEditor(); afterCatalogChange();
+    }
+    function addNewPhone() {
+        editing = { id: 'iphone-custom-' + Date.now(), name: 'iPhone nuevo', series: '15', seriesLabel: 'Serie nueva', condition: 'Seminuevo Certificado', batteryHealth: '90% (Original)', simInfo: '5G Libre de Fábrica • Nano-SIM + eSIM', extraNote: '', stock: 1, defaultStorageIndex: 0, cameraType: 'dual-diagonal', chip: '', display: '', camera: '', basePrice: 20000, storages: [{ size: '128GB', extra: 0 }], colors: [{ name: 'Negro', hex: '#1c1d1f', frame: '#323842' }] };
+        renderEditor(); document.getElementById('editor-modal').classList.remove('hidden');
+    }
+    function resetFullCatalog() {
+        if (!confirm('Esto borra TODOS tus cambios del catálogo y vuelve al original. ¿Continuar?')) return;
+        try { localStorage.removeItem(CATALOG_KEY); localStorage.removeItem(PRICE_KEY); localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        location.reload();
+    }
+
+    // Integración con el arranque y el cambio de precios
+    const _initX = initExtras;
+    initExtras = function () { if (!loadFullCatalog()) { /* usa catálogo base */ } _initX(); refreshTrade(); updateGlobalInventoryCounters(); };
+    const _setPrice = setPrice;
+    setPrice = function (id, v) { _setPrice(id, v); saveFullCatalog(); };
+</script>
+
+<script>
+    // ===== PUBLICACIÓN: cambios visibles en todos los dispositivos =====
+    loadFullCatalog = function () {
+        try {
+            let raw = localStorage.getItem(CATALOG_KEY);               // borrador del dueño (aún sin publicar)
+            let saved = raw ? JSON.parse(raw) : null;
+            if (!saved) saved = JSON.parse(document.getElementById('store-data').textContent);  // catálogo publicado
+            if (!Array.isArray(saved) || !saved.length) return false;
+            catalog.length = 0; saved.forEach(p => catalog.push(p));
+            return true;
+        } catch (e) { return false; }
+    };
+    loadSavedPrices = function () {};   // los precios ya viajan dentro del catálogo
+
+    async function revealAdminForOwner() {
+        try {
+            const u = window.claude && await claude.use('user');
+            if (u && u.canEdit()) document.getElementById('toggle-admin-btn').classList.remove('hidden');
+        } catch (e) {}
+    }
+    async function publishAll() {
+        let art = null;
+        try { art = window.claude && await claude.use('artifact'); } catch (e) {}
+        if (!art) { alert('Para publicar abre la página desde tu cuenta de Claude (como dueño).'); return; }
+        saveFullCatalog();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector('#store-data').textContent = JSON.stringify(catalog).replace(/</g, '\\u003c');
+        ['products-grid', 'testimonials-grid', 'faq-list', 'zones-list', 'offers-marquee', 'compare-table', 'editor-body', 'modal-color-swatches', 'modal-storage-options'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.innerHTML = ''; });
+        ['admin-banner', 'admin-tools', 'editor-modal', 'compare-modal', 'compare-bar', 'toggle-admin-btn'].forEach(id => { const e = clone.querySelector('#' + id); if (e) e.classList.add('hidden'); });
+        const pm = clone.querySelector('#product-modal'); if (pm) pm.classList.remove('active');
+        clone.querySelector('body').removeAttribute('style');
+        try { localStorage.removeItem(CATALOG_KEY); } catch (e) {}
+        try { await art.publish('<!DOCTYPE html>\n' + clone.outerHTML); }
+        catch (e) { saveFullCatalog(); alert('No se pudo publicar (' + (e && e.code || 'error') + '). Tus cambios siguen guardados como borrador.'); }
+    }
+    const _initY = initExtras;
+    initExtras = function () { _initY(); revealAdminForOwner(); };
+</script>
+</body>
+</html>
